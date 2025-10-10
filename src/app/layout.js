@@ -1,0 +1,41 @@
+import "./globals.css";
+import 'swiper/css';
+import 'swiper/css/effect-fade';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import Navbar from "./navbar/Navbar";
+export const metadata = {
+  title: "Vishwa's Global Tech Solutions | Innovative IT Solutions",
+  description: "Transforming businesses with cutting-edge technology solutions. Web development, mobile apps, cloud solutions, and UI/UX design services.",
+  keywords: ["IT solutions", "web development", "mobile apps", "cloud services", "UI/UX design", "Vishwa's Global Tech Solutions", "VGTS"],
+  authors: [{ name: 'Vishwa' }],
+  openGraph: {
+    title: "Vishwa's Global Tech Solutions",
+    description: "Innovative IT solutions for the digital age. Web development, mobile apps, cloud services, and more.",
+    url: "https://vgts.com",
+    siteName: "Vishwa's Global Tech Solutions",
+    locale: 'en_US',
+    type: 'website',
+  },
+};
+
+export const viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#1a1a1a' },
+  ],
+};
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en" className="scroll-smooth">
+      <head />
+      <body className="font-sans antialiased bg-white text-gray-900">
+        <Navbar />
+        <main>
+          {children}
+        </main>
+      </body>
+    </html>
+  );
+}
