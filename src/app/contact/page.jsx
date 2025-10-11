@@ -3,8 +3,35 @@
 import React, { useState } from 'react';
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaClock, FaPaperPlane, FaFacebook, FaTwitter, FaLinkedinIn, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import { useRef } from 'react';
+import emailjs from '@emailjs/browser';
 
 const Page = () => {
+  const form = useRef();
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs
+      .sendForm(
+        serviceID=process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+        templateID=process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+        form.current,
+        userID=process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+      )
+      .then(
+        (result) => {
+          console.log('Email sent successfully!', result.text);
+          alert('Message sent successfully!');
+          form.current.reset();
+        },
+        (error) => {
+          console.error('Failed to send email:', error.text);
+          alert('Failed to send message. Please try again.');
+        }
+      );
+  };
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -71,91 +98,65 @@ const Page = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Form */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
               className="bg-white rounded-xl shadow-lg p-8"
             >
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Send Us a Message</h2>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                    Full Name <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Your Name"
-                  />
+              <form ref={form} onSubmit={sendEmail} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                      Name
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="from_name"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="from_email"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      required
+                    />
+                  </div>
                 </div>
-
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                    Email Address <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="your.email@example.com"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
-                    Subject
-                  </label>
-                  <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="How can we help you?"
-                  />
-                </div>
-
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                    Your Message <span className="text-red-500">*</span>
+                    Message
                   </label>
                   <textarea
                     id="message"
                     name="message"
-                    rows="5"
-                    value={formData.message}
-                    onChange={handleChange}
+                    rows="4"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Tell us more about your project..."
                   ></textarea>
                 </div>
-
                 <div>
                   <button
                     type="submit"
-                    className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 flex items-center justify-center space-x-2 transition-colors duration-200"
+                    className="w-full bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                   >
-                    <FaPaperPlane className="w-5 h-5" />
-                    <span>Send Message</span>
+                    Send Message
                   </button>
                 </div>
               </form>
             </motion.div>
 
             {/* Contact Information */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
@@ -177,8 +178,8 @@ const Page = () => {
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900">{item.title}</h3>
                       {item.link ? (
-                        <a 
-                          href={item.link} 
+                        <a
+                          href={item.link}
                           className="text-gray-600 hover:text-blue-600 transition-colors duration-200"
                         >
                           {item.value}
@@ -195,31 +196,31 @@ const Page = () => {
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Follow Us</h3>
                 <div className="flex space-x-4">
                   {[
-                   { 
-                    name: 'Facebook', 
-                    icon: <FaFacebook className="text-xl" />, 
-                    url: 'https://www.facebook.com/vishwasglobaltechsolutions' 
-                  },
-                  { 
-                    name: 'Twitter', 
-                    icon: <FaTwitter className="text-xl" />, 
-                    url: 'https://twitter.com/vishwasglobaltechsolutions' 
-                  },
-                  { 
-                    name: 'LinkedIn', 
-                    icon: <FaLinkedinIn className="text-xl" />, 
-                    url: 'https://www.linkedin.com/company/vishwas-global-tech-solutions/' 
-                  },
-                  { 
-                    name: 'Instagram', 
-                    icon: <FaInstagram className="text-xl" />, 
-                    url: 'https://www.instagram.com/vishwasglobaltechsolutions/' 
-                  },
-                  { 
-                    name: 'Whatsapp', 
-                    icon: <FaWhatsapp className="text-xl" />, 
-                    url: 'https://wa.me/919156589900' 
-                  },
+                    {
+                      name: 'Facebook',
+                      icon: <FaFacebook className="text-xl" />,
+                      url: 'https://www.facebook.com/vishwasglobaltechsolutions'
+                    },
+                    {
+                      name: 'Twitter',
+                      icon: <FaTwitter className="text-xl" />,
+                      url: 'https://twitter.com/vishwasglobaltechsolutions'
+                    },
+                    {
+                      name: 'LinkedIn',
+                      icon: <FaLinkedinIn className="text-xl" />,
+                      url: 'https://www.linkedin.com/company/vishwas-global-tech-solutions/'
+                    },
+                    {
+                      name: 'Instagram',
+                      icon: <FaInstagram className="text-xl" />,
+                      url: 'https://www.instagram.com/vishwasglobaltechsolutions/'
+                    },
+                    {
+                      name: 'Whatsapp',
+                      icon: <FaWhatsapp className="text-xl" />,
+                      url: 'https://wa.me/919156589900'
+                    },
                   ].map((social) => (
                     <a
                       key={social.name}

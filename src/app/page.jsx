@@ -1,8 +1,10 @@
 "use client";
 
 import React from 'react';
-import Image from "next/image";
 import Link from "next/link";
+
+import { useRef } from 'react';
+import emailjs from '@emailjs/browser';
 
 import { FaLaptopCode, FaMobileAlt, FaCloud, FaPalette, FaUsers, FaBullhorn, FaTimes, FaBars, FaChevronLeft, FaChevronRight, FaWhatsapp } from 'react-icons/fa';
 import { FaUsersGear } from 'react-icons/fa6';
@@ -36,36 +38,48 @@ const services = [
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isToastOpen, setIsToastOpen] = useState(false);
+ 
+  const form = useRef();
+
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
+    from_name: '',
+    from_email: '',
+    subject: '',    
+    message: ''
   });
-  const [showToast, setShowToast] = useState(false);
 
-  const handleSubmit = (e) => {
+  const sendEmail = (e) => {
     e.preventDefault();
-    // Your form submission logic here
 
-    // Show success toast
-    setShowToast(true);
-    // Hide toast after 3 seconds
-    setTimeout(() => setShowToast(false), 3000);
+    emailjs
+      .sendForm(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+        form.current,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+      )
+      .then(
+        (result) => {
+          console.log('Email sent successfully!', result.text);
+          alert('Message sent successfully!');
+          form.current.reset();
+        },
+        (error) => {
+          console.error('Failed to send email:', error.text);
+          alert('Failed to send message. Please try again.');
+        }
+      );
   };
 
-  // Add this inside your return statement, right after the form closing tag
-  <AnimatePresence>
-    {showToast && (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 20 }}
-        className="fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50"
-      >
-        Message sent successfully!
-      </motion.div>
-    )}
-  </AnimatePresence>
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData(prev => ({
+  //     ...prev,
+  //     [name]: value
+  //   }));
+  // };
+
+  
 
   // Close mobile menu when route changes
   useEffect(() => {
@@ -178,20 +192,20 @@ export default function Home() {
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">Ready to start your next project? Contact us today for a free consultation.</p>
             </div>
             <div className="bg-white rounded-lg shadow-lg p-8 max-w-2xl mx-auto">
-              <form className="space-y-6" onSubmit={handleSubmit}>
+              <form className="space-y-6" ref={form} onSubmit={sendEmail}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                    <input type="text" id="name" className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                    <input type="text" id="name" name="from_name" required className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
                   </div>
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <input type="email" id="email" className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                    <input type="email" id="email" name="from_email" required className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
                   </div>
                 </div>
                 <div>
                   <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message</label>
-                  <textarea id="message" rows="4" className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                  <textarea id="message" name="message" rows="4" required className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
                 </div>
                 <div>
                   <button type="submit" className="w-full bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
