@@ -74,7 +74,7 @@ const ServicesPage = () => {
           <p className="text-xl mb-8 max-w-3xl mx-auto">
             Let's discuss how we can help you achieve your digital goals with our expert services.
           </p>
-          <button onClick={() => window.open('https://wa.me/919156589900')} className="bg-white text-blue-600 font-semibold px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors duration-300">
+          <button onClick={() => window.open('https://wa.me/919156589900?text= I am interested in your services. Can you please provide me more details?')} className="bg-white text-blue-600 font-semibold px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors duration-300">
             Get a Free Consultation          
           </button>
         </div>

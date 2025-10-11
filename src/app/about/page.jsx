@@ -6,7 +6,7 @@ const teamMembers = [
     name: 'Jamnik V. G.',
     role: 'Founder & CEO',
     bio: 'Technology enthusiast with over 10 years of experience in software development and IT consulting.',
-    image: 'https://res.cloudinary.com/diaba1bf2/image/upload/v1760037538/Photovgj_o7lswx.jpg',
+    image: 'https://res.cloudinary.com/diaba1bf2/image/upload/v1760161271/photo_nbbzts.png',
   },
   // Add more team members as needed
 ];

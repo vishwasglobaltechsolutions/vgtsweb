@@ -5,15 +5,15 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import Navbar from "./navbar/Navbar";
 export const metadata = {
-  title: "Vishwa's Global Tech Solutions | Innovative IT Solutions",
+  title: "Vishwa's Global Tech Solution | Innovative IT Solutions",
   description: "Transforming businesses with cutting-edge technology solutions. Web development, mobile apps, cloud solutions, and UI/UX design services.",
-  keywords: ["IT solutions", "web development", "mobile apps", "cloud services", "UI/UX design", "Vishwa's Global Tech Solutions", "VGTS"],
+  keywords: ["IT solutions", "web development", "mobile apps", "cloud services", "UI/UX design", "Vishwa's Global Tech Solution", "VGTS"],
   authors: [{ name: 'Vishwa' }],
   openGraph: {
-    title: "Vishwa's Global Tech Solutions",
+    title: "Vishwa's Global Tech Solution",
     description: "Innovative IT solutions for the digital age. Web development, mobile apps, cloud services, and more.",
     url: "https://vgts.com",
-    siteName: "Vishwa's Global Tech Solutions",
+    siteName: "Vishwa's Global Tech Solution",
     locale: 'en_US',
     type: 'website',
   },

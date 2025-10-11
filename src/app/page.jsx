@@ -8,8 +8,7 @@ import { FaLaptopCode, FaMobileAlt, FaCloud, FaPalette, FaUsers, FaBullhorn, FaT
 import { FaUsersGear } from 'react-icons/fa6';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Navigation, Pagination, EffectFade } from 'swiper/modules';
+import HeroSlider from './components/HeroSlider';
 
 const services = [
   {
@@ -85,137 +84,57 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section with Slider */}
-      <section id="home" className="relative bg-gray-900  text-white overflow-hidden text-shadow-xl" style={{ height: '90vh', marginTop: '-20px' }}>
-        <Swiper
-          modules={[Autoplay, Navigation, EffectFade, Pagination]}
-          effect="fade"
-          speed={1000}
-          loop={true}
-          autoplay={{
-            delay: 10000,
-            disableOnInteraction: false,
-          }}
-          pagination={{
-            clickable: true,
-            el: '.swiper-pagination',
-            renderBullet: (index, className) => {
-              return `<span class="${className} bg-white opacity-50 hover:opacity-100 transition-opacity duration-300"></span>`;
+      <section id="home" className="relative bg-gray-900 text-white overflow-hidden text-shadow-xl" style={{ height: '80vh' }}>
+        <HeroSlider 
+          slides={[
+            {
+              title: 'Innovative IT Solutions for Your Business',
+              description: 'Transforming ideas into powerful digital experiences with cutting-edge technology.',
+              image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+              gradientFrom: 'rgba(30, 58, 138, 0.9)', // blue-900/90
+              gradientTo: 'rgba(37, 99, 235, 0.7)',   // blue-600/70
+              buttons: [
+                { text: 'Get Started', href: '#contact', isPrimary: true },
+                { text: 'Our Services', href: '#services', isPrimary: false }
+              ]
             },
-          }}
-          navigation={{
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-            disabledClass: 'opacity-30 cursor-not-allowed',
-          }}
-          className="w-full h-[80vh] min-h-[600px]"
-        >
-          {/* Slide 1 */}
-          <SwiperSlide className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-blue-600/70"></div>
-            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')] bg-cover bg-center"></div>
-            <div className="relative h-full flex items-center">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8 }}
-                  className="max-w-4xl mx-auto"
-                >
-                  <h1 className="text-4xl md:text-6xl font-extrabold mb-6 text-white drop-shadow-lg leading-tight">Innovative IT Solutions for Your Business</h1>
-                  <p className="text-xl md:text-2xl mb-10 max-w-3xl mx-auto text-gray-100 drop-shadow-md font-medium leading-relaxed">Transforming ideas into powerful digital experiences with cutting-edge technology.</p>
-                  <div className="flex flex-nowrap gap-2 sm:gap-4 justify-center items-center overflow-x-auto w-full px-2 pb-10 sm:px-0">
-                    <Link href="#contact" className="whitespace-nowrap text-center bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-8 py-2 sm:py-3 text-sm sm:text-base rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                      Get Started
-                    </Link>
-                    <Link href="#services" className="whitespace-nowrap text-center bg-transparent border-2 border-white text-white hover:bg-white/10 px-4 sm:px-8 py-2 sm:py-3 text-sm sm:text-base rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
-                      Our Services
-                    </Link>
-                  </div>
-                </motion.div>
-              </div>
-            </div>
-          </SwiperSlide>
-
-          {/* Slide 2 */}
-          <SwiperSlide className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-900/90 to-indigo-600/70"></div>
-            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')] bg-cover bg-center"></div>
-            <div className="relative h-full flex items-center">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8 }}
-                  className="max-w-4xl mx-auto"
-                >
-                  <h1 className="text-4xl md:text-6xl font-extrabold mb-6 text-white drop-shadow-lg leading-tight">Custom Software Development</h1>
-                  <p className="text-xl md:text-2xl mb-10 max-w-3xl mx-auto text-gray-100 drop-shadow-md font-medium leading-relaxed">Tailored solutions that drive business growth and digital transformation.</p>
-                  <div className="flex flex-nowrap gap-2 sm:gap-4 justify-center items-center overflow-x-auto w-full px-2 sm:px-0">
-                    <Link href="#contact" className="whitespace-nowrap text-center bg-purple-600 hover:bg-purple-700 text-white px-4 sm:px-8 py-2 sm:py-3 text-sm sm:text-base rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                      Start Project
-                    </Link>
-                    <Link href="#services" className="whitespace-nowrap text-center bg-transparent border-2 border-white text-white hover:bg-white/10 px-4 sm:px-8 py-2 sm:py-3 text-sm sm:text-base rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
-                      View Services
-                    </Link>
-                  </div>
-                </motion.div>
-              </div>
-            </div>
-          </SwiperSlide>
-
-          {/* Slide 3 */}
-          <SwiperSlide className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-cyan-900/90 to-teal-600/70"></div>
-            <div className="absolute inset-0 bg-[url('https://rushford.ch/wp-content/uploads/2023/11/a-HELXLsGGM-transformed-770x400.jpeg')] bg-cover bg-center"></div>
-            <div className="relative h-full flex items-center">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8 }}
-                  className="max-w-4xl mx-auto"
-                >
-                  <h1 className="text-4xl md:text-6xl font-extrabold mb-6 text-white drop-shadow-lg leading-tight">Digital Transformation Experts</h1>
-                  <p className="text-xl md:text-2xl mb-10 max-w-3xl mx-auto text-gray-100 drop-shadow-md font-medium leading-relaxed">Helping businesses thrive in the digital age with innovative solutions.</p>
-                  <div className="flex flex-nowrap gap-2 sm:gap-4 justify-center items-center overflow-x-auto w-full px-2 sm:px-0 pb-10">
-                    <Link href="#contact" className="whitespace-nowrap text-center bg-cyan-600 hover:bg-cyan-700 text-white px-4 sm:px-8 py-2 sm:py-3 text-sm sm:text-base rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                      Contact Us
-                    </Link>
-                    <Link href="#about" className="whitespace-nowrap text-center bg-transparent border-2 border-white text-white hover:bg-white/10 px-4 sm:px-8 py-2 sm:py-3 text-sm sm:text-base rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
-                      Know More
-                    </Link>
-                  </div>
-                </motion.div>
-              </div>
-            </div>
-          </SwiperSlide>
-
-          {/* Navigation Buttons - Minimum
-          <div className="absolute left-2 sm:left-4 top-1/2 z-10 -translate-y-1/2">
-            <button className="swiper-button-prev w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors duration-200">
-              <FaChevronLeft className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
-            </button>
-          </div>
-          <div className="absolute right-2 sm:right-4 top-1/2 z-10 -translate-y-1/2">
-            <button className="swiper-button-next w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors duration-200">
-              <FaChevronRight className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
-            </button>
-          </div> */}
-
-        </Swiper>
+            {
+              title: 'Custom Software Development',
+              description: 'Tailored solutions that drive business growth and digital transformation.',
+              image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+              gradientFrom: 'rgba(76, 29, 149, 0.9)',  // purple-900/90
+              gradientTo: 'rgba(79, 70, 229, 0.7)',    // indigo-600/70
+              buttons: [
+                { text: 'Start Project', href: '#contact', isPrimary: true },
+                { text: 'View Services', href: '#services', isPrimary: false }
+              ]
+            },
+            {
+              title: 'Digital Transformation Experts',
+              description: 'Helping businesses thrive in the digital age with innovative solutions.',
+              image: 'https://rushford.ch/wp-content/uploads/2023/11/a-HELXLsGGM-transformed-770x400.jpeg',
+              gradientFrom: 'rgba(14, 78, 103, 0.9)',  // cyan-900/90
+              gradientTo: 'rgba(13, 148, 136, 0.7)',   // teal-600/70
+              buttons: [
+                { text: 'Contact Us', href: '#contact', isPrimary: true },
+                { text: 'Know More', href: '#about', isPrimary: false }
+              ]
+            }
+          ]} 
+        />
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-20">
+      <section id="services" className="py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Services</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">Our Services</h2>
             <div className="w-20 h-1 bg-blue-600 mx-auto"></div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service, index) => (
-              <div key={index} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
-                <div className="text-4xl mb-4">{service.icon}</div>
+              <div key={index} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition">
+                <div className="text-4xl mb-2">{service.icon}</div>
                 <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
                 <p className="text-gray-600">{service.description}</p>
               </div>
@@ -225,11 +144,11 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="bg-gray-100 py-20">
+      <section id="about" className="bg-gray-100 py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="md:flex items-center">
             <div className="md:w-1/2 mb-10 md:mb-10 md:pr-10 ">
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">About VGTS</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-2">About VGTS</h2>
               <p className="text-gray-700 mb-4">
                 At Vishwa's Global Tech Solutions, we are passionate about delivering innovative technology solutions that drive business growth and digital transformation.
               </p>
