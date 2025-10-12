@@ -17,6 +17,8 @@ export const metadata = {
     locale: 'en_US',
     type: 'website',
   },
+  // CSP is handled in middleware.js
+  
 };
 
 export const viewport = {

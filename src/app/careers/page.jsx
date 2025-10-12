@@ -3,6 +3,7 @@
 import React from 'react';
 import { FaCode, FaServer, FaMobile, FaBrain, FaLaptopCode, FaUsers, FaRegClock, FaGraduationCap, FaMapMarkerAlt } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 const Page = () => {
   const jobOpenings = [
@@ -157,12 +158,12 @@ const Page = () => {
                       </div>
                     </div>
                     <div className="mt-4 flex-shrink-0 md:mt-0 md:ml-4">
-                      <button
-                        type="button"
-                        className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                      >
-                        Apply Now
-                      </button>
+                          <Link 
+                            href={`/applyforjob?position=${encodeURIComponent(job.title)}`}
+                            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                          >
+                            Apply Now
+                          </Link>
                     </div>
                   </div>
                   <div className="mt-4">
@@ -187,7 +188,7 @@ const Page = () => {
             <p className="mt-2 text-gray-600">
               We're always looking for talented individuals to join our team. Send us your resume at{' '}
               <a href="mailto:careers@vgts.com" className="text-blue-600 hover:text-blue-800">
-                careers@vgts.com
+              vishwasglobaltechsolutions@gmail.com
               </a>
             </p>
           </div>
