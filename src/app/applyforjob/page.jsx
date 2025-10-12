@@ -1,7 +1,7 @@
 'use client';
 
 import React, { Suspense, useState, useEffect } from 'react';
-import { ref, push, set } from 'firebase/database';
+import { ref, push, set} from 'firebase/database';
 import { database } from '../../lib/firebase';
 import { useForm } from 'react-hook-form';
 import { FaArrowLeft, FaPaperPlane, FaUpload } from 'react-icons/fa';
@@ -270,7 +270,7 @@ const JobApplicationForm = ({ jobTitle }) => {
                         <div className="flex text-sm text-gray-600">
                           <label
                             htmlFor="resume"
-                            className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
+                            className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                           >
                             <span>Upload a file</span>
                             <input
@@ -279,7 +279,7 @@ const JobApplicationForm = ({ jobTitle }) => {
                               type="file"
                               accept=".pdf,.doc,.docx"
                               {...register('resume', { required: 'Resume is required' })}
-                              className="sr-only"
+                              className="absolute opacity-0"
                             />
                           </label>
                           <p className="pl-1">or drag and drop</p>
@@ -327,7 +327,9 @@ const JobApplicationForm = ({ jobTitle }) => {
 };
 
 const JobApplicationPage = ({ searchParams }) => {
-  const jobTitle = searchParams?.get('position') || 'this position';
+  // Properly handle searchParams with React.use()
+  const params = React.use(searchParams);
+  const jobTitle = params.position || 'this position';
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
