@@ -22,16 +22,16 @@ export function middleware() {
     `style-src 'self' 'nonce-${nonce}' 'unsafe-inline' https:`,
     
     // Media, image and font sources - more permissive in development
-    `img-src 'self' data: blob: https:${isDev ? " http:" : ""}`,
-    `font-src 'self' data: https:${isDev ? " http:" : ""}`,
-    `media-src 'self' data: blob: https:${isDev ? " http:" : ""}`,
+    `img-src 'self' data: blob: https:${isDev ? " http:" : ""} *`,
+    `font-src 'self' data: https:${isDev ? " http:" : ""} *`,
+    `media-src 'self' data: blob: https:${isDev ? " http:" : ""} *`,
     
-    // Connect and frame sources - allow WebSockets and Firebase domains
-    `connect-src 'self' https: wss:${isDev ? " http: ws:" : ""} *.firebaseio.com *.googleapis.com`,
+    // Connect and frame sources - allow WebSockets, Firebase domains, and EmailJS
+    `connect-src 'self' https: wss:${isDev ? " http: ws:" : ""} *.firebaseio.com *.googleapis.com api.emailjs.com`,
     `frame-src 'self' https:${isDev ? " http:" : ""} *.firebaseio.com`,
     
-    // Form actions
-    "form-action 'self'",
+    // Form actions - allow form submissions to EmailJS
+    "form-action 'self' https://api.emailjs.com",
     
     // Other security headers
     "base-uri 'self'",

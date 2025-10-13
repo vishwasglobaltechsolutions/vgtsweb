@@ -4,34 +4,49 @@ const nextConfig = {
     domains: [
       'res.cloudinary.com',
       'images.unsplash.com',
-      // Add other domains as needed
     ],
     formats: ['image/webp'],
-    minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
+    minimumCacheTTL: 60 * 60 * 24 * 30,
   },
   async headers() {
+    const isDev = process.env.NODE_ENV === 'development';
+    
+    // More permissive CSP for development
+    const csp = isDev
+      ? [
+          "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https: http:",
+          "connect-src 'self' * data: blob: https: wss: ws: http:",
+          "script-src 'self' 'unsafe-inline' 'unsafe-eval' *",
+          "style-src 'self' 'unsafe-inline' *",
+          "img-src 'self' data: blob: *",
+          "font-src 'self' data: *",
+          "frame-src 'self' *",
+          "form-action 'self' *",
+        ].join('; ')
+      : [
+          // Production CSP (more restrictive)
+          "default-src 'self'",
+          `connect-src 'self' https: wss: *.firebaseio.com *.googleapis.com api.emailjs.com *.emailjs.com`,
+          "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+          "style-src 'self' 'unsafe-inline'",
+          "img-src 'self' data: blob: https:",
+          "font-src 'self' data:",
+          "frame-src 'self'",
+          "form-action 'self' https://api.emailjs.com",
+        ].join('; ');
+
     return [
       {
         source: '/(.*)',
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: [
-              "default-src 'self';",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.firebaseio.com https://*.googleapis.com https://www.googletagmanager.com https://www.google-analytics.com https://www.gstatic.com https://apis.google.com https://*.firebase.com;",
-              "connect-src 'self' wss://*.firebaseio.com https://*.firebaseio.com https://*.googleapis.com https://*.firebase.com https://*.google-analytics.com https://*.analytics.google.com https://*.firebase.com;",
-              "img-src 'self' data: https:;",
-              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;",
-              "font-src 'self' https://fonts.gstatic.com;",
-              "frame-src 'self' https://*.firebase.com https://*.firebaseio.com;",
-              "worker-src 'self' blob:;",
-            ].join(' '),
+            value: csp,
           },
         ],
       },
     ];
   },
-  // Other Next.js config options can go here
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

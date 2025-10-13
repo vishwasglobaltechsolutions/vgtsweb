@@ -5,11 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { FaWhatsapp } from 'react-icons/fa';
 import { FaLaptopCode, FaMobileAlt, FaCloud, FaPalette, FaUsers, FaBullhorn, FaTimes, FaBars, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const Navbar = () => {
-
+  const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Close mobile menu when route changes
@@ -132,23 +133,34 @@ const Navbar = () => {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              {['Home', 'Services', 'Careers', 'About'].map((item) => (
-                <Link
-                  key={item}
-                  href={item.toLowerCase() === 'home' ? '/' : item.toLowerCase()}
-                  className="relative text-gray-700 hover:text-blue-600 transition-colors duration-200 group"
-                >
-                  {item}
-                  <motion.span
-                    className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full"
-                    initial={{ width: 0 }}
-                    whileHover={{ width: '100%' }}
-                    transition={{ duration: 0.3 }}
-                  />
-                </Link>
-              ))}
+              {['Home', 'Services', 'Careers', 'About'].map((item) => {
+                const path = item.toLowerCase() === 'home' ? '/' : `/${item.toLowerCase()}`;
+                const isActive = pathname === path;
+                
+                return (
+                  <Link
+                    key={item}
+                    href={path}
+                    prefetch={true}
+                    className={`relative ${
+                      isActive ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+                    } transition-colors duration-200 group`}
+                  >
+                    {item}
+                    <motion.span
+                      className={`absolute -bottom-1 left-0 h-0.5 bg-blue-600 transition-all ${
+                        isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                      }`}
+                      initial={{ width: 0 }}
+                      whileHover={{ width: '100%' }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  </Link>
+                );
+              })}
               <Link
-                href="contact"
+                href="/contact"
+                prefetch={true}
                 className="bg-blue-600 text-white px-6 py-2.5 rounded-md hover:bg-blue-700 transition-all duration-300 transform hover:-translate-y-0.5 shadow-md hover:shadow-lg flex items-center"
               >
                 Contact Us

@@ -38,48 +38,77 @@ const services = [
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isToastOpen, setIsToastOpen] = useState(false);
- 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState({ success: null, message: '' });
+
   const form = useRef();
 
-  const [formData, setFormData] = useState({
-    from_name: '',
-    from_email: '',
-    subject: '',    
-    message: ''
-  });
-
-  const sendEmail = (e) => {
+  const sendEmail = async (e) => {
     e.preventDefault();
 
-    emailjs
-      .sendForm(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-        form.current,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
-      )
-      .then(
-        (result) => {
-          console.log('Email sent successfully!', result.text);
-          alert('Message sent successfully!');
-          form.current.reset();
-        },
-        (error) => {
-          console.error('Failed to send email:', error.text);
-          alert('Failed to send message. Please try again.');
-        }
-      );
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
+    setSubmitStatus({ success: null, message: '' });
+
+    try {
+      if (!form.current) {
+        throw new Error('Form reference is not available');
+      }
+
+      // Check if environment variables are set
+      if (!process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ||
+        !process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ||
+        !process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY) {
+        throw new Error('EmailJS configuration is incomplete. Please check your environment variables.');
+      }
+
+      // Initialize EmailJS
+      emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY);
+
+      // Create form data object
+      const formData = new FormData(form.current);
+      const templateParams = Object.fromEntries(formData.entries());
+
+      // Use a promise to handle the email sending
+      const result = await new Promise((resolve, reject) => {
+        emailjs.send(
+          process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+          process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+          templateParams,
+          process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+        )
+          .then(resolve)
+          .catch(reject);
+      });
+
+      console.log('Email sent successfully!', result);
+      setSubmitStatus({
+        success: true,
+        message: 'Message sent successfully! We\'ll get back to you soon.'
+      });
+      form.current.reset();
+    } catch (error) {
+      console.error('Failed to send email:', error);
+      setSubmitStatus({
+        success: false,
+        message: `Failed to send message: ${error.message || 'Please try again later.'}`
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+  // Add a useEffect to log environment variables in development
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('EmailJS Config:', {
+        serviceId: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ? 'Set' : 'Missing',
+        templateId: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ? 'Set' : 'Missing',
+        publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY ? 'Set (first 5 chars): ' + process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY.substring(0, 5) + '...' : 'Missing'
+      });
+    }
+  }, []);
 
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormData(prev => ({
-  //     ...prev,
-  //     [name]: value
-  //   }));
-  // };
-
-  
 
   // Close mobile menu when route changes
   useEffect(() => {
@@ -99,7 +128,7 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section with Slider */}
       <section id="home" className="relative bg-gray-900 text-white overflow-hidden text-shadow-xl" style={{ height: '80vh' }}>
-        <HeroSlider 
+        <HeroSlider
           slides={[
             {
               title: 'Innovative IT Solutions for Your Business',
@@ -134,7 +163,7 @@ export default function Home() {
                 { text: 'Know More', href: '#about', isPrimary: false }
               ]
             }
-          ]} 
+          ]}
         />
       </section>
 
@@ -184,38 +213,87 @@ export default function Home() {
 
       {/* Contact Section */}
       <section id="contact" className="py-20">
-        
-          {/* Your existing form fields */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Get In Touch</h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">Ready to start your next project? Contact us today for a free consultation.</p>
-            </div>
-            <div className="bg-white rounded-lg shadow-lg p-8 max-w-2xl mx-auto">
-              <form className="space-y-6" ref={form} onSubmit={sendEmail}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                    <input type="text" id="name" name="from_name" required className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
-                  </div>
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <input type="email" id="email" name="from_email" required className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
-                  </div>
-                </div>
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message</label>
-                  <textarea id="message" name="message" rows="4" required className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
-                </div>
-                <div>
-                  <button type="submit" className="w-full bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                    Send Message
-                  </button>
-                </div>
-              </form>
-            </div>
+
+        {/* Your existing form fields */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Get In Touch</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">Ready to start your next project? Contact us today for a free consultation.</p>
           </div>
-        
+          <div className="bg-white rounded-lg shadow-lg p-8 max-w-2xl mx-auto">
+            <form className="space-y-6" ref={form} onSubmit={sendEmail}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="from_name"
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="from_email"
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+              </div>
+             <div>
+                <label htmlFor="mobile" className="block text-sm font-medium text-gray-700 mb-1">Mobile Number</label>
+                <input
+                  type="number"
+                  id="mobile"
+                  name="from_mobile"
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+              <div>
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows="4"
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                ></textarea>
+              </div>
+              <div>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={`w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white ${isSubmitting ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'
+                    } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Sending...
+                    </>
+                  ) : (
+                    'Send Message'
+                  )}
+                </button>
+              </div>
+              {submitStatus.message && (
+                <div className={`p-3 rounded-md ${submitStatus.success ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                  }`}>
+                  {submitStatus.message}
+                </div>
+              )}
+            </form>
+          </div>
+        </div>
+
       </section>
 
       {/* Footer */}

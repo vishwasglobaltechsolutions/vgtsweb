@@ -14,21 +14,58 @@ const JobApplicationForm = () => {
   
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
   
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [submitError, setSubmitError] = React.useState('');
+
   const onSubmit = async (data) => {
+    console.log('Form data:', data);
+    setIsSubmitting(true);
+    setSubmitError('');
+    
     try {
-      const applicationRef = push(ref(database, 'jobApplications'));
-      await set(applicationRef, {
+      // Check if database is initialized
+      if (!database) {
+        throw new Error('Database is not initialized');
+      }
+
+      console.log('Database reference:', database);
+      
+      // Create a new application reference
+      const applicationsRef = ref(database, 'jobApplications');
+      console.log('Applications reference:', applicationsRef);
+      
+      // Push a new application
+      const newApplicationRef = push(applicationsRef);
+      console.log('New application reference:', newApplicationRef);
+      
+      // Prepare application data
+      const applicationData = {
         ...data,
         jobTitle: jobTitle,
         department: department,
         appliedAt: new Date().toISOString(),
         status: 'new'
-      });
+      };
+      
+      console.log('Saving application data:', applicationData);
+      
+      // Save the data
+      await set(newApplicationRef, applicationData);
+      
+      console.log('Application saved successfully');
       reset();
       alert('Application submitted successfully!');
     } catch (error) {
-      console.error('Error submitting application:', error);
-      alert('Failed to submit application. Please try again.');
+      console.error('Error details:', {
+        name: error.name,
+        message: error.message,
+        stack: error.stack,
+        fullError: error
+      });
+      setSubmitError(`Failed to submit application: ${error.message}`);
+      alert(`Failed to submit application. Please try again. Error: ${error.message}`);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -208,13 +245,36 @@ const JobApplicationForm = () => {
               <p className="text-sm text-red-600">{errors.terms.message}</p>
             )}
 
-            <div className="pt-4">
+            <div className="pt-4 space-y-2">
               <button
                 type="submit"
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                disabled={isSubmitting}
+                className={`inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white ${
+                  isSubmitting 
+                    ? 'bg-blue-400' 
+                    : 'bg-blue-600 hover:bg-blue-700'
+                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
               >
-                <FaPaperPlane className="mr-2" /> Submit Application
+                {isSubmitting ? (
+                  <>
+                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Submitting...
+                  </>
+                ) : (
+                  <>
+                    <FaPaperPlane className="mr-2" /> Submit Application
+                  </>
+                )}
               </button>
+              
+              {submitError && (
+                <div className="p-3 text-sm text-red-700 bg-red-100 rounded-md">
+                  {submitError}
+                </div>
+              )}
             </div>
           </form>
         </div>
