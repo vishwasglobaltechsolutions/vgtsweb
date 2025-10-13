@@ -14,11 +14,11 @@ export function middleware() {
   const csp = [
     "default-src 'self'",
     `connect-src 'self' https: wss: *.firebaseio.com *.googleapis.com api.emailjs.com *.emailjs.com`,
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
-    "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data: blob: https:",
-    "font-src 'self' data:",
-    "frame-src 'self'",
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://maps.googleapis.com https://maps.gstatic.com",
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "img-src 'self' data: blob: https: *.googleapis.com *.google.com *.gstatic.com",
+    "font-src 'self' data: https://fonts.gstatic.com",
+    "frame-src 'self' https://www.google.com https://*.google.com",
     "form-action 'self' https://api.emailjs.com",
   ].join('; ');
 
