@@ -8,6 +8,12 @@ const teamMembers = [
     bio: 'Technology enthusiast with over 10 years of experience in software development and IT consulting.',
     image: 'https://res.cloudinary.com/diaba1bf2/image/upload/v1760162990/vjpics_q4vln9.png',
   },
+  {
+    name: 'Manvar Umesh D.',
+    role: 'CFO',
+    bio: 'Financial expert with over 12 years of experience in finance and HR.',
+    image: 'https://res.cloudinary.com/diaba1bf2/image/upload/c_pad,b_gen_fill,ar_3:4/v1760424975/UmeshPhoto_u0rlht.png',
+  },
   // Add more team members as needed
 ];
 
@@ -164,7 +170,7 @@ export default function AboutPage() {
               The talented individuals leading our company to success
             </p>
           </div>
-          <div className="grid grid-cols-1 gap-8 justify-items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 justify-items-center">
             {teamMembers.map((member, index) => (
               <div key={index} className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow w-full max-w-sm">
                 <div className="relative h-100 w-full">
