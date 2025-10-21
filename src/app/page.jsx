@@ -137,7 +137,7 @@ export default function Home() {
               gradientFrom: 'rgba(30, 58, 138, 0.9)', // blue-900/90
               gradientTo: 'rgba(37, 99, 235, 0.7)',   // blue-600/70
               buttons: [
-                { text: 'Get Started', href: '#contact', isPrimary: true },
+                { text: 'Get Started', href: 'https://wa.me/919156589900?text= I am interested in your services. Can you please provide me more details?', isPrimary: true },
                 { text: 'Our Services', href: '#services', isPrimary: false }
               ]
             },
@@ -148,7 +148,7 @@ export default function Home() {
               gradientFrom: 'rgba(76, 29, 149, 0.9)',  // purple-900/90
               gradientTo: 'rgba(79, 70, 229, 0.7)',    // indigo-600/70
               buttons: [
-                { text: 'Start Project', href: '#contact', isPrimary: true },
+                { text: 'Start Project', href: 'https://wa.me/919156589900?text= I want to make my Software (Website or Mobile App). Can you please provide me more details?', isPrimary: true },
                 { text: 'View Services', href: '#services', isPrimary: false }
               ]
             },
@@ -159,7 +159,7 @@ export default function Home() {
               gradientFrom: 'rgba(14, 78, 103, 0.9)',  // cyan-900/90
               gradientTo: 'rgba(13, 148, 136, 0.7)',   // teal-600/70
               buttons: [
-                { text: 'Contact Us', href: '#contact', isPrimary: true },
+                { text: 'Contact Us', href: 'https://wa.me/919156589900?text= I am interested in your services. Can you please provide me more details?', isPrimary: true },
                 { text: 'Know More', href: '#about', isPrimary: false }
               ]
             }
