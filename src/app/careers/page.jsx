@@ -4,6 +4,7 @@ import React from 'react';
 import { FaCode, FaServer, FaMobile, FaBrain, FaLaptopCode, FaUsers, FaRegClock, FaGraduationCap, FaMapMarkerAlt } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Footer from '../footer/page';
 
 const Page = () => {
   const jobOpenings = [
@@ -214,6 +215,7 @@ const Page = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

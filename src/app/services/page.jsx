@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { FaLaptopCode, FaMobileAlt, FaCloud, FaPalette, FaServer, FaChartLine, FaWhatsapp } from 'react-icons/fa';
-
+import Footer from '../footer/page';
 const services = [
   {
     icon: <FaLaptopCode className="w-12 h-12 text-blue-600 mb-4" />,
@@ -38,7 +38,7 @@ const services = [
 
 const ServicesPage = () => {
   return (
-    <div className="min-h-screen bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 mt-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Hero Section */}
         <div className="text-center mb-16">
@@ -77,9 +77,16 @@ const ServicesPage = () => {
           <button onClick={() => window.open('https://wa.me/919156589900?text= I am interested in your services. Can you please provide me more details?')} className="bg-white text-blue-600 font-semibold px-8 py-3 rounded-lg hover:bg-gray-100 transition-colors duration-300">
             Get a Free Consultation          
           </button>
-        </div>
-      </div>
+        </div>  
+           
+      </div> 
+      <div className="mt-20 pb-0">
+            <Footer />  
+      </div> 
+     
+       
     </div>
+    
   );
 };
 

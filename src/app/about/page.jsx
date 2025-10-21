@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import Footer from '../footer/page';
 
 const teamMembers = [
   {
@@ -240,6 +241,7 @@ export default function AboutPage() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
