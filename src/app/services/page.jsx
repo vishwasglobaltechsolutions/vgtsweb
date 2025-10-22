@@ -21,7 +21,7 @@ const services = [
     description: 'Robust backend systems with Node.js, Python, and Java, ensuring scalability, security, and high performance for your applications.'
   },
   {
-      icon: <FaUsersGear className="w-8 h-8 text-blue-600" />,
+      icon: <FaUsersGear className="w-12 h-12 text-blue-600 mb-4" />,
       title: "Business Automation",
       description: "Automate your business processes with our proven automation techniques.",
       
