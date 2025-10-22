@@ -96,11 +96,11 @@ const Page = () => {
 
 
   const contactInfo = [
-    {
-      icon: <FaMapMarkerAlt className="text-2xl text-blue-600" />,
-      title: 'Our Location',
-      value: 'Plot No.01, 2nd Floor, Near Central Bank, Shivar, Akola-444104'
-    },
+    // {
+    //   icon: <FaMapMarkerAlt className="text-2xl text-blue-600" />,
+    //   title: 'Our Location',
+    //   value: 'Plot No.01, 2nd Floor, Near Central Bank, Shivar, Akola-444104'
+    // },
     {
       icon: <FaPhoneAlt className="text-2xl text-blue-600" />,
       title: 'Phone Number',

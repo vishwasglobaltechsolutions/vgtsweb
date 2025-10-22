@@ -326,9 +326,9 @@ export default function Home() {
             <div>
               <h4 className="text-lg font-semibold mb-4">Contact Us</h4>
               <address className="not-italic text-gray-400">
-                <p>Plot No.101, 2nd Floor</p>
+                {/* <p>Plot No.101, 2nd Floor</p>
                 <p>Near Central Bank</p>
-                <p>Shivar, Akola</p>
+                <p>Shivar, Akola</p> */}
                 <p className="mt-2">Email: <a href="mailto:vishwasglobaltechsolutions@gmail.com">vishwasglobaltechsolutions@gmail.com</a></p>
                 <p>Phone: +91 915-658-9900</p>
               </address>

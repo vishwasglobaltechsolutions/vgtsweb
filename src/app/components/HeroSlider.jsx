@@ -65,7 +65,7 @@ const HeroSlider = ({ slides = [] }) => {
                       href={button.href}
                       className={`flex-shrink-0 inline-flex items-center justify-center px-5 sm:px-6 py-2.5 sm:py-3 w-36 sm:w-40 text-sm sm:text-base rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 whitespace-nowrap ${
                         button.isPrimary
-                        ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl'
+                        ? 'bg-gradient-to-r from-blue-800 to-blue-400 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl'
                         : 'bg-transparent border-2 border-white text-white hover:bg-white/10'
                       }`}
                     >

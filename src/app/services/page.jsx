@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { FaLaptopCode, FaMobileAlt, FaCloud, FaPalette, FaServer, FaChartLine, FaWhatsapp } from 'react-icons/fa';
+import { FaLaptopCode, FaMobileAlt, FaCloud, FaPalette, FaServer, FaChartLine } from 'react-icons/fa';
+import { FaUsersGear } from 'react-icons/fa6';
 import Footer from '../footer/page';
 const services = [
   {
@@ -20,9 +21,10 @@ const services = [
     description: 'Robust backend systems with Node.js, Python, and Java, ensuring scalability, security, and high performance for your applications.'
   },
   {
-    icon: <FaCloud className="w-12 h-12 text-blue-600 mb-4" />,
-    title: 'Cloud Services',
-    description: 'Cloud infrastructure setup, migration, and management on AWS, Azure, and Google Cloud Platform for scalable and reliable solutions.'
+      icon: <FaUsersGear className="w-8 h-8 text-blue-600" />,
+      title: "Business Automation",
+      description: "Automate your business processes with our proven automation techniques.",
+      
   },
   {
     icon: <FaPalette className="w-12 h-12 text-blue-600 mb-4" />,
