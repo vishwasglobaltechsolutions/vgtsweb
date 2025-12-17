@@ -78,19 +78,7 @@ const AdminLogin = () => {
             <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
                 <div className="animate-pulse">Loading...</div>
             </div>
-
         );
-        useEffect(() => {
-            const testFirebaseConnection = async () => {
-                try {
-                    const response = await fetch(`https://${process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}/__/auth/status`);
-                    console.log('Firebase connection test:', response.status, await response.text());
-                } catch (error) {
-                    console.error('Firebase connection test failed:', error);
-                }
-            };
-            testFirebaseConnection();
-        }, []);
     }
 
     return (
