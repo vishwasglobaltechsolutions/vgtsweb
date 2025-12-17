@@ -42,7 +42,12 @@ const page = () => {
               <p className="mt-3 text-sm leading-6 text-gray-600">{p.description}</p>
             ) : null}
             <div className="mt-4">
-              <a href="https://wa.me/919156589900?text= I am interested in your product. Can you please provide me more details?" className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors">
+              <a 
+                href={idx === 0 ? 'https://jobhook.in/' : 'https://wa.me/919156589900?text=I am interested in your product. Can you please provide me more details?'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
+              >
                 Let's Connect
                 <svg className="ml-1 h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l5 5a1 1 0 010 1.414l-5 5a1 1 0 11-1.414-1.414L13.586 11H4a1 1 0 110-2h9.586l-3.293-3.293a1 1 0 010-1.414z" clipRule="evenodd" />
