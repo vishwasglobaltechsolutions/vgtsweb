@@ -2,11 +2,9 @@
 
 import React from 'react';
 import Link from "next/link";
-
 import { useRef } from 'react';
 import emailjs from '@emailjs/browser';
-
-import { FaLaptopCode, FaMobileAlt, FaCloud, FaPalette, FaUsers, FaBullhorn, FaTimes, FaBars, FaChevronLeft, FaChevronRight, FaWhatsapp } from 'react-icons/fa';
+import { FaLaptopCode, FaMobileAlt, FaCloud, FaPalette, FaUsers, FaBullhorn, FaTimes, FaBars, FaChevronLeft, FaChevronRight, FaWhatsapp, FaInstagram, FaFacebook, FaLinkedin, FaCheckCircle, FaArrowRight, FaRocket, FaShieldAlt, FaHeadset, FaClock, FaAward, FaStar, FaEnvelope, FaPhone } from 'react-icons/fa';
 import { FaUsersGear } from 'react-icons/fa6';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
@@ -16,28 +14,60 @@ const services = [
   {
     title: "Software Development",
     description: "Custom websites and Mobile applications built with AI Powered modern technologies.",
-    icon: <FaLaptopCode className="w-8 h-8 text-blue-600" />
+    icon: <FaLaptopCode className="w-8 h-8" />,
+    color: "from-blue-500 to-blue-700",
+    features: ["Custom Solutions", "Scalable Architecture", "Modern Tech Stack"]
   },
   {
     title: "UI/UX Design",
     description: "Beautiful and intuitive user interfaces that enhance user experience.",
-    icon: <FaPalette className="w-8 h-8 text-blue-600" />
+    icon: <FaPalette className="w-8 h-8" />,
+    color: "from-purple-500 to-purple-700",
+    features: ["User-Centered", "Responsive Design", "Brand Identity"]
   },
   {
     title: "Business Automation",
     description: "Automate your business processes with our proven automation techniques.",
-    icon: <FaUsersGear className="w-8 h-8 text-blue-600" />
+    icon: <FaUsersGear className="w-8 h-8" />,
+    color: "from-green-500 to-green-700",
+    features: ["Process Optimization", "Cost Reduction", "Efficiency Boost"]
   },
   {
     title: "Digital Marketing",
     description: "Increase your online presence and reach your target audience with our digital marketing services.",
-    icon: <FaBullhorn className="w-8 h-8 text-blue-600" />
+    icon: <FaBullhorn className="w-8 h-8" />,
+    color: "from-orange-500 to-orange-700",
+    features: ["SEO Optimization", "Social Media", "Content Strategy"]
   },
+];
+
+const stats = [
+  { value: "25+", label: "Projects Completed", icon: <FaCheckCircle /> },
+  { value: "100%", label: "Happy Clients", icon: <FaUsers /> },
+  { value: "25+", label: "Years of Experienced Team", icon: <FaAward /> },
+  { value: "24/7", label: "Support Available", icon: <FaHeadset /> }
+];
+
+const features = [
+  {
+    icon: <FaRocket className="w-8 h-8" />,
+    title: "Fast Delivery",
+    description: "We deliver projects on time with our efficient development process."
+  },
+  {
+    icon: <FaShieldAlt className="w-8 h-8" />,
+    title: "Secure Solutions",
+    description: "Security is our priority. We build secure and reliable applications."
+  },
+  {
+    icon: <FaClock className="w-8 h-8" />,
+    title: "24/7 Support",
+    description: "Round-the-clock support to ensure your business runs smoothly."
+  }
 ];
 
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isToastOpen, setIsToastOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ success: null, message: '' });
 
@@ -56,21 +86,17 @@ export default function Home() {
         throw new Error('Form reference is not available');
       }
 
-      // Check if environment variables are set
       if (!process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ||
         !process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ||
         !process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY) {
         throw new Error('EmailJS configuration is incomplete. Please check your environment variables.');
       }
 
-      // Initialize EmailJS
       emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY);
 
-      // Create form data object
       const formData = new FormData(form.current);
       const templateParams = Object.fromEntries(formData.entries());
 
-      // Use a promise to handle the email sending
       const result = await new Promise((resolve, reject) => {
         emailjs.send(
           process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
@@ -98,7 +124,7 @@ export default function Home() {
       setIsSubmitting(false);
     }
   };
-  // Add a useEffect to log environment variables in development
+
   useEffect(() => {
     if (process.env.NODE_ENV === 'development') {
       console.log('EmailJS Config:', {
@@ -109,33 +135,30 @@ export default function Home() {
     }
   }, []);
 
-
-  // Close mobile menu when route changes
   useEffect(() => {
     const handleRouteChange = () => {
       setIsMobileMenuOpen(false);
     };
 
-    // Add event listener for route changes
     window.addEventListener('popstate', handleRouteChange);
 
-    // Cleanup
     return () => {
       window.removeEventListener('popstate', handleRouteChange);
     };
   }, []);
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section with Slider */}
-      <section id="home" className="relative bg-gray-900 text-white overflow-hidden text-shadow-xl" style={{ height: '80vh' }}>
+      <section id="home" className="relative bg-gray-900 text-white overflow-hidden" style={{ height: '90vh' }}>
         <HeroSlider
           slides={[
             {
               title: 'Innovative IT Solutions for Your Business',
               description: 'Transforming ideas into powerful digital experiences with cutting-edge technology.',
               image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-              gradientFrom: 'rgba(30, 58, 138, 0.9)', // blue-900/90
-              gradientTo: 'rgba(37, 99, 235, 0.7)',   // blue-600/70
+              gradientFrom: 'rgba(30, 58, 138, 0.9)',
+              gradientTo: 'rgba(37, 99, 235, 0.7)',
               buttons: [
                 { text: 'Get Started', href: 'https://wa.me/919156589900?text= I am interested in your services. Can you please provide me more details?', isPrimary: true },
                 { text: 'Our Services', href: '#services', isPrimary: false }
@@ -145,8 +168,8 @@ export default function Home() {
               title: 'Custom Software Development',
               description: 'Tailored solutions that drive business growth and digital transformation.',
               image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-              gradientFrom: 'rgba(76, 29, 149, 0.9)',  // purple-900/90
-              gradientTo: 'rgba(79, 70, 229, 0.7)',    // indigo-600/70
+              gradientFrom: 'rgba(76, 29, 149, 0.9)',
+              gradientTo: 'rgba(79, 70, 229, 0.7)',
               buttons: [
                 { text: 'Start Project', href: 'https://wa.me/919156589900?text= I want to make my Software (Website or Mobile App). Can you please provide me more details?', isPrimary: true },
                 { text: 'View Services', href: '#services', isPrimary: false }
@@ -156,8 +179,8 @@ export default function Home() {
               title: 'Digital Transformation Experts',
               description: 'Helping businesses thrive in the digital age with innovative solutions.',
               image: 'https://rushford.ch/wp-content/uploads/2023/11/a-HELXLsGGM-transformed-770x400.jpeg',
-              gradientFrom: 'rgba(14, 78, 103, 0.9)',  // cyan-900/90
-              gradientTo: 'rgba(13, 148, 136, 0.7)',   // teal-600/70
+              gradientFrom: 'rgba(14, 78, 103, 0.9)',
+              gradientTo: 'rgba(13, 148, 136, 0.7)',
               buttons: [
                 { text: 'Contact Us', href: 'https://wa.me/919156589900?text= I am interested in your services. Can you please provide me more details?', isPrimary: true },
                 { text: 'Know More', href: '#about', isPrimary: false }
@@ -167,109 +190,320 @@ export default function Home() {
         />
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-10">
+      {/* Stats Section */}
+      <section className="py-12 md:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">Our Services</h2>
-            <div className="w-20 h-1 bg-blue-600 mx-auto"></div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+            {stats.map((stat, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="text-center"
+              >
+                <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-blue-100 text-blue-600 rounded-full mb-3 md:mb-4">
+                  {React.cloneElement(stat.icon, { className: 'w-6 h-6 md:w-8 md:h-8' })}
+                </div>
+                <h3 className="text-2xl md:text-4xl font-bold text-gray-900 mb-2">{stat.value}</h3>
+                <p className="text-sm md:text-base text-gray-600">{stat.label}</p>
+              </motion.div>
+            ))}
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section id="services" className="py-12 md:py-20 bg-gradient-to-br from-gray-50 to-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12 md:mb-16"
+          >
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">Our Services</h2>
+            <p className="text-base md:text-xl text-gray-600 max-w-2xl mx-auto">
+              Comprehensive IT solutions tailored to meet your business needs
+            </p>
+            <div className="w-16 md:w-24 h-1 bg-blue-600 mx-auto mt-4"></div>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {services.map((service, index) => (
-              <div key={index} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition">
-                <div className="text-4xl mb-2">{service.icon}</div>
-                <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
-                <p className="text-gray-600">{service.description}</p>
-              </div>
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="group"
+              >
+                <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 h-full">
+                  <div className={`inline-flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-gradient-to-r ${service.color} text-white rounded-2xl mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                    {React.cloneElement(service.icon, { className: 'w-7 h-7 md:w-8 md:h-8' })}
+                  </div>
+                  <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-3">{service.title}</h3>
+                  <p className="text-sm md:text-base text-gray-600 mb-4">{service.description}</p>
+                  <ul className="space-y-2">
+                    {service.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-center gap-2 text-xs md:text-sm text-gray-500">
+                        <FaCheckCircle className="w-3 h-3 md:w-4 md:h-4 text-green-500" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="text-center mt-8 md:mt-12"
+          >
+            <Link
+              href="/services"
+              className="inline-flex items-center gap-2 px-6 md:px-8 py-3 md:py-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-300 shadow-lg hover:shadow-xl text-sm md:text-base"
+            >
+              Explore All Services
+              <FaArrowRight />
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-12 md:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12 md:mb-16"
+          >
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">Why Choose Us</h2>
+            <p className="text-base md:text-xl text-gray-600 max-w-2xl mx-auto">
+              We deliver excellence through innovation, quality, and dedication
+            </p>
+            <div className="w-16 md:w-24 h-1 bg-blue-600 mx-auto mt-4"></div>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            {features.map((feature, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="text-center p-6 md:p-8 bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl hover:shadow-lg transition-shadow duration-300"
+              >
+                <div className="inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 bg-blue-600 text-white rounded-2xl mb-4 md:mb-6">
+                  {React.cloneElement(feature.icon, { className: 'w-8 h-8 md:w-10 md:h-10' })}
+                </div>
+                <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">{feature.title}</h3>
+                <p className="text-sm md:text-base text-gray-600">{feature.description}</p>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
       {/* About Section */}
-      <section id="about" className="bg-gray-100 py-10">
+      <section id="about" className="py-12 md:py-20 bg-gradient-to-br from-gray-50 to-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="md:flex items-center">
-            <div className="md:w-1/2 mb-10 md:mb-10 md:pr-10 ">
-              <h2 className="text-3xl font-bold text-gray-900 mb-2">About VGTS</h2>
-              <p className="text-gray-700 mb-4">
+          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="w-full md:w-1/2"
+            >
+              <div className="relative">
+                <div className="absolute -top-4 -left-4 w-48 h-48 md:w-72 md:h-72 bg-blue-200 rounded-full opacity-20 blur-3xl"></div>
+                <img
+                  src="https://res.cloudinary.com/diaba1bf2/image/upload/v1759995199/AIMan_q1wukx.webp"
+                  alt="VGTS Team"
+                  className="relative rounded-2xl shadow-2xl w-full"
+                />
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="w-full md:w-1/2"
+            >
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">About VGTS</h2>
+              <p className="text-base md:text-lg text-gray-600 mb-6 leading-relaxed">
                 At Vishwa's Global Tech Solutions, we are passionate about delivering innovative technology solutions that drive business growth and digital transformation.
               </p>
-              <p className="text-gray-700 mb-6">
+              <p className="text-base md:text-lg text-gray-600 mb-8 leading-relaxed">
                 With a team of experienced professionals, we help businesses of all sizes navigate the complex world of technology and achieve their digital goals.
               </p>
-              <Link href="about" className="text-blue-600 font-semibold hover:underline">
-                Know more about us →
-              </Link>
-            </div>
-            <div className="md:w-1/2">
-              <div className="bg-gray-300 h-80 rounded-lg  flex items-center justify-center text-gray-500 ">
-                <img src="https://res.cloudinary.com/diaba1bf2/image/upload/v1759995199/AIMan_q1wukx.webp" alt="VGTS Logo" className="rounded-lg" />
+              <div className="flex flex-wrap gap-4 mb-8">
+                <div className="flex items-center gap-2 text-blue-600">
+                  <FaCheckCircle className="w-4 h-4 md:w-5 md:h-5" />
+                  <span className="font-medium text-sm md:text-base">Expert Team</span>
+                </div>
+                <div className="flex items-center gap-2 text-blue-600">
+                  <FaCheckCircle className="w-4 h-4 md:w-5 md:h-5" />
+                  <span className="font-medium text-sm md:text-base">Quality Solutions</span>
+                </div>
+                <div className="flex items-center gap-2 text-blue-600">
+                  <FaCheckCircle className="w-4 h-4 md:w-5 md:h-5" />
+                  <span className="font-medium text-sm md:text-base">24/7 Support</span>
+                </div>
               </div>
-            </div>
+              <Link
+                href="/about"
+                className="inline-flex items-center gap-2 px-6 md:px-8 py-3 md:py-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-300 shadow-lg hover:shadow-xl text-sm md:text-base"
+              >
+                Know More About Us
+                <FaArrowRight />
+              </Link>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20">
-
-        {/* Your existing form fields */}
+      <section id="contact" className="py-12 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Get In Touch</h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">Ready to start your next project? Contact us today for a free consultation.</p>
-          </div>
-          <div className="bg-white rounded-lg shadow-lg p-8 max-w-2xl mx-auto">
-            <form className="space-y-6" ref={form} onSubmit={sendEmail}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12 md:mb-16"
+          >
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">Get In Touch</h2>
+            <p className="text-base md:text-xl text-gray-600 max-w-2xl mx-auto">
+              Ready to start your next project? Contact us today for a free consultation.
+            </p>
+            <div className="w-16 md:w-24 h-1 bg-blue-600 mx-auto mt-4"></div>
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="bg-gradient-to-br from-blue-600 to-blue-800 text-white p-6 md:p-8 rounded-2xl"
+            >
+              <h3 className="text-xl md:text-2xl font-bold mb-6">Contact Information</h3>
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="inline-flex items-center justify-center w-12 h-12 bg-white/20 rounded-lg flex-shrink-0">
+                    <FaPhone className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <p className="font-semibold mb-1">Phone</p>
+                    <a href="tel:+919156589900" className="text-blue-100 hover:text-white transition-colors">
+                      +91 915-658-9900
+                    </a>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="inline-flex items-center justify-center w-12 h-12 bg-white/20 rounded-lg flex-shrink-0">
+                    <FaEnvelope className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <p className="font-semibold mb-1">Email</p>
+                    <a href="mailto:vishwasglobaltechsolutions@gmail.com" className="text-blue-100 hover:text-white transition-colors break-all">
+                      vishwasglobaltechsolutions@gmail.com
+                    </a>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="inline-flex items-center justify-center w-12 h-12 bg-white/20 rounded-lg flex-shrink-0">
+                    <FaWhatsapp className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <p className="font-semibold mb-1">WhatsApp</p>
+                    <a
+                      href="https://wa.me/919156589900"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-100 hover:text-white transition-colors"
+                    >
+                      +91 915-658-9900
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="bg-white p-6 md:p-8 rounded-2xl shadow-xl border border-gray-100"
+            >
+              <form className="space-y-4 md:space-y-6" ref={form} onSubmit={sendEmail}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="from_name"
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base"
+                      placeholder="Your name"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="from_email"
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base"
+                      placeholder="your@email.com"
+                    />
+                  </div>
+                </div>
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                  <label htmlFor="mobile" className="block text-sm font-medium text-gray-700 mb-2">Mobile Number</label>
                   <input
-                    type="text"
-                    id="name"
-                    name="from_name"
+                    type="tel"
+                    id="mobile"
+                    name="from_mobile"
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-base"
+                    placeholder="+91 XXXXX XXXXX"
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="from_email"
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows="4"
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  />
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none text-base"
+                    placeholder="Tell us about your project..."
+                  ></textarea>
                 </div>
-              </div>
-             <div>
-                <label htmlFor="mobile" className="block text-sm font-medium text-gray-700 mb-1">Mobile Number</label>
-                <input
-                  type="number"
-                  id="mobile"
-                  name="from_mobile"
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows="4"
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                ></textarea>
-              </div>
-              <div>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white ${isSubmitting ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'
-                    } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
+                  className={`w-full flex justify-center items-center px-6 py-4 border border-transparent rounded-lg text-base font-medium text-white transition-all duration-300 ${isSubmitting ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700 hover:shadow-lg'
+                    }`}
                 >
                   {isSubmitting ? (
                     <>
@@ -283,59 +517,142 @@ export default function Home() {
                     'Send Message'
                   )}
                 </button>
-              </div>
-              {submitStatus.message && (
-                <div className={`p-3 rounded-md ${submitStatus.success ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                  }`}>
-                  {submitStatus.message}
-                </div>
-              )}
-            </form>
+                {submitStatus.message && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className={`p-4 rounded-lg ${submitStatus.success ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}
+                  >
+                    {submitStatus.message}
+                  </motion.div>
+                )}
+              </form>
+            </motion.div>
           </div>
         </div>
+      </section>
 
+      {/* CTA Section */}
+      <section className="py-12 md:py-20 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="px-2 md:px-0"
+          >
+            <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-4 md:mb-6">Ready to Transform Your Business?</h2>
+            <p className="text-sm md:text-base lg:text-xl text-blue-100 mb-6 md:mb-8 max-w-3xl mx-auto leading-relaxed">
+              Let's discuss how we can help you achieve your digital goals with our expert services
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center w-full">
+              <a
+                href="https://wa.me/919156589900?text=I am interested in your services. Please schedule a meeting?"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center px-5 md:px-8 py-3 md:py-4 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-colors text-sm md:text-base w-full sm:w-auto"
+              >
+                <FaWhatsapp className="mr-2 w-4 h-4 md:w-5 md:h-5" />
+                Schedule a Meeting
+              </a>
+              <a
+                href="/contact"
+                className="inline-flex items-center justify-center px-5 md:px-8 py-3 md:py-4 bg-blue-700 text-white font-semibold rounded-lg hover:bg-blue-800 transition-colors text-sm md:text-base w-full sm:w-auto"
+              >
+                Contact Us
+              </a>
+            </div>
+          </motion.div>
+        </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
+      <footer className="bg-gray-900 text-white py-12 md:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
             <div>
-              <h3 className="text-xl font-bold mb-4">VGTS</h3>
-              <p className="text-gray-400">Innovative IT solutions for the digital age.</p>
+              <h3 className="text-xl md:text-2xl font-bold mb-4">VGTS</h3>
+              <p className="text-gray-400 mb-6 text-sm md:text-base">Innovative IT solutions for the digital age.</p>
+              <div className="flex gap-4">
+                <a
+                  href="https://wa.me/919156589900?text= I am interested in your services. Can you please provide me more details?"
+                  className="text-white hover:text-blue-200 transition-colors duration-200"
+                  aria-label="WhatsApp"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaWhatsapp className="h-5 w-5" />
+                </a>
+                <a
+                  href="https://www.facebook.com/profile.php?id=61574965181096"
+                  className="text-white hover:text-blue-200 transition-colors duration-200"
+                  aria-label="Facebook"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaFacebook className="h-5 w-5" />
+                </a>
+
+                <a
+                  href="https://linkedin.com/your-linkedin"
+                  className="text-white hover:text-blue-200 transition-colors duration-200"
+                  aria-label="LinkedIn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaLinkedin className="h-5 w-5" />
+                </a>
+                <a
+                  href="https://www.instagram.com/vishwasglobaltechsolution?igsh=OWtsbGVlb3QwbG9l"
+                  className="text-white hover:text-blue-200 transition-colors duration-200"
+                  aria-label="Instagram"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaInstagram className="h-5 w-5" />
+                </a>
+              </div>
             </div>
             <div>
-              <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
-              <ul className="space-y-2">
-                <li><Link href="#home" className="text-gray-400 hover:text-white">Home</Link></li>
-                <li><Link href="#services" className="text-gray-400 hover:text-white">Services</Link></li>
-                <li><Link href="#about" className="text-gray-400 hover:text-white">About Us</Link></li>
-                <li><Link href="#contact" className="text-gray-400 hover:text-white">Contact</Link></li>
+              <h4 className="text-base md:text-lg font-semibold mb-4">Quick Links</h4>
+              <ul className="space-y-2 md:space-y-3">
+                <li><Link href="#home" className="text-gray-400 hover:text-white transition-colors text-sm md:text-base">Home</Link></li>
+                <li><Link href="#services" className="text-gray-400 hover:text-white transition-colors text-sm md:text-base">Services</Link></li>
+                <li><Link href="/about" className="text-gray-400 hover:text-white transition-colors text-sm md:text-base">About Us</Link></li>
+                <li><Link href="#contact" className="text-gray-400 hover:text-white transition-colors text-sm md:text-base">Contact</Link></li>
               </ul>
             </div>
             <div>
-              <h4 className="text-lg font-semibold mb-4">Services</h4>
-              <ul className="space-y-2">
+              <h4 className="text-base md:text-lg font-semibold mb-4">Services</h4>
+              <ul className="space-y-2 md:space-y-3">
                 {services.map((service, index) => (
                   <li key={index}>
-                    <Link href="#services" className="text-gray-400 hover:text-white">{service.title}</Link>
+                    <Link href="/services" className="text-gray-400 hover:text-white transition-colors text-sm md:text-base">{service.title}</Link>
                   </li>
                 ))}
               </ul>
             </div>
             <div>
-              <h4 className="text-lg font-semibold mb-4">Contact Us</h4>
-              <address className="not-italic text-gray-400">
-                {/* <p>Plot No.101, 2nd Floor</p>
-                <p>Near Central Bank</p>
-                <p>Shivar, Akola</p> */}
-                <p className="mt-2">Email: <a href="mailto:vishwasglobaltechsolutions@gmail.com">vishwasglobaltechsolutions@gmail.com</a></p>
-                <p>Phone: +91 915-658-9900</p>
+              <h4 className="text-base md:text-lg font-semibold mb-4">Contact Us</h4>
+              <address className="not-italic text-gray-400 space-y-2 md:space-y-3">
+                <p className="flex items-center gap-2">
+                  <FaEnvelope className="w-4 h-4" />
+                  <a href="mailto:vishwasglobaltechsolutions@gmail.com" className="hover:text-white transition-colors text-xs md:text-base break-all">
+                    vishwasglobaltechsolutions<br />@gmail.com
+                  </a>
+                </p>
+                <p className="flex items-center gap-2">
+                  <FaPhone className="w-4 h-4" />
+                  <a href="tel:+919156589900" className="hover:text-white transition-colors text-sm md:text-base">
+                    +91 915-658-9900
+                  </a>
+                </p>
               </address>
             </div>
           </div>
-          <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-            <p>&copy; {new Date().getFullYear()} Vishwa's Global Tech-Solution. All rights reserved.</p>
+          <div className="border-t border-gray-800 mt-8 md:mt-12 pt-6 md:pt-8 text-center text-gray-400">
+            <p className="text-sm md:text-base">&copy; {new Date().getFullYear()} Vishwa's Global Tech-Solution. All rights reserved.</p>
           </div>
         </div>
       </footer>

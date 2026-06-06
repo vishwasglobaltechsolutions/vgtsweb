@@ -7,16 +7,53 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { FaWhatsapp, FaFacebook,FaLinkedin, FaInstagram } from 'react-icons/fa';
-import { FaLaptopCode, FaMobileAlt, FaCloud, FaPalette, FaUsers, FaBullhorn, FaTimes, FaBars, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaLaptopCode, FaMobileAlt, FaCloud, FaPalette, FaUsers, FaBullhorn, FaTimes, FaBars, FaChevronLeft, FaChevronRight, FaChevronDown, FaGraduationCap } from 'react-icons/fa';
 
 const Navbar = () => {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(null);
+  const [mobileDropdown, setMobileDropdown] = useState(null);
+
+  const dropdownItems = {
+    Services: [
+      { name: 'Software Development', href: '/services#software-development', icon: <FaLaptopCode className="w-4 h-4" /> },
+      { name: 'UI/UX Design', href: '/services#ui-ux-design', icon: <FaPalette className="w-4 h-4" /> },
+      { name: 'Business Automation', href: '/services#business-automation', icon: <FaUsers className="w-4 h-4" /> },
+      { name: 'Digital Marketing', href: '/services#digital-marketing', icon: <FaBullhorn className="w-4 h-4" /> }
+    ],
+    Products: [
+      { name: 'JobHook', href: 'https://jobhook.in/', icon: <FaLaptopCode className="w-4 h-4" /> },
+      { name: 'Educational Institute Management', href: '/products#educational', icon: <FaGraduationCap className="w-4 h-4" /> },
+      { name: 'Online Exam Portal', href: '/products#exam-portal', icon: <FaLaptopCode className="w-4 h-4" /> }
+    ],
+    Projects: [
+      { name: 'Web Development', href: '/projects?category=web', icon: <FaLaptopCode className="w-4 h-4" /> },
+      { name: 'Mobile Apps', href: '/projects?category=mobile', icon: <FaMobileAlt className="w-4 h-4" /> },
+      { name: 'UI/UX Design', href: '/projects?category=design', icon: <FaPalette className="w-4 h-4" /> }
+    ]
+  };
+
+  const hasDropdown = (item) => ['Services', 'Products'].includes(item);
+
+  const handleDropdownHover = (item, isOpen) => {
+    if (hasDropdown(item)) {
+      setOpenDropdown(isOpen ? item : null);
+    }
+  };
+
+  const handleMobileDropdownToggle = (item) => {
+    if (hasDropdown(item)) {
+      setMobileDropdown(mobileDropdown === item ? null : item);
+    }
+  };
 
   // Close mobile menu when route changes
   useEffect(() => {
     const handleRouteChange = () => {
       setIsMobileMenuOpen(false);
+      setOpenDropdown(null);
+      setMobileDropdown(null);
     };
 
     // Add event listener for route changes
@@ -26,6 +63,18 @@ const Navbar = () => {
     return () => {
       window.removeEventListener('popstate', handleRouteChange);
     };
+  }, []);
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.dropdown-container')) {
+        setOpenDropdown(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
   return (
     <div>
@@ -130,19 +179,73 @@ const Navbar = () => {
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
-              {['Home', 'Services', 'Products', 'Careers', 'About'].map((item) => {
+            <div className="hidden md:flex items-center space-x-6">
+              {['Home', 'Services', 'Products', 'About'].map((item) => {
                 const path = item.toLowerCase() === 'home' ? '/' : `/${item.toLowerCase()}`;
                 const isActive = pathname === path;
+                const isDropdownOpen = openDropdown === item;
+                
+                if (hasDropdown(item)) {
+                  return (
+                    <div
+                      key={item}
+                      className="relative dropdown-container"
+                      onMouseEnter={() => handleDropdownHover(item, true)}
+                      onMouseLeave={() => handleDropdownHover(item, false)}
+                    >
+                      <button
+                        className={`flex items-center gap-1 relative transition-colors duration-200 group ${
+                          isActive ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+                        }`}
+                      >
+                        {item}
+                        <FaChevronDown className={`w-3 h-3 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                        <motion.span
+                          className={`absolute -bottom-1 left-0 h-0.5 bg-blue-600 transition-all ${
+                            isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                          }`}
+                          initial={false}
+                          whileHover={{ width: '100%' }}
+                          transition={{ duration: 0.3 }}
+                        />
+                      </button>
+                      
+                      <AnimatePresence>
+                        {isDropdownOpen && (
+                          <motion.div
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            transition={{ duration: 0.2 }}
+                            className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-100 overflow-hidden z-50"
+                          >
+                            {dropdownItems[item].map((dropdownItem, idx) => (
+                              <a
+                                key={idx}
+                                href={dropdownItem.href}
+                                target={dropdownItem.href.startsWith('http') ? '_blank' : undefined}
+                                rel={dropdownItem.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                                className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200"
+                              >
+                                <span className="text-blue-600">{dropdownItem.icon}</span>
+                                <span className="text-sm font-medium">{dropdownItem.name}</span>
+                              </a>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                }
                 
                 return (
                   <Link
                     key={item}
                     href={path}
                     prefetch={true}
-                    className={`relative ${
+                    className={`relative transition-colors duration-200 group ${
                       isActive ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
-                    } transition-colors duration-200 group`}
+                    }`}
                   >
                     {item}
                     <motion.span
@@ -174,9 +277,9 @@ const Navbar = () => {
               >
                 <span className="sr-only">Open main menu</span>
                 {isMobileMenuOpen ? (
-                  <FaTimes className="block h-6 w-6" aria-hidden="true" />
+                  <FaTimes className="block h-4 w-4" aria-hidden="true" />
                 ) : (
-                  <FaBars className="block h-6 w-6" aria-hidden="true" />
+                  <FaBars className="block h-4 w-4" aria-hidden="true" />
                 )}
               </button>
             </div>
@@ -194,9 +297,10 @@ const Navbar = () => {
               transition={{ duration: 0.3, ease: 'easeInOut' }}
             >
               <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                {['Home', 'Services', 'Careers', 'About', 'Contact'].map((item, index) => {
+                {['Home', 'Services', 'Products', 'About', 'Contact'].map((item, index) => {
                   const path = item.toLowerCase() === 'home' ? '/' : `/${item.toLowerCase()}`;
                   const isActive = pathname === path;
+                  const isMobileDropdownOpen = mobileDropdown === item;
                   
                   return (
                     <motion.div
@@ -205,23 +309,71 @@ const Navbar = () => {
                       animate={{ x: 0, opacity: 1 }}
                       transition={{ delay: index * 0.1 }}
                     >
-                      <Link
-                        href={path}
-                        className={`relative block px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                          isActive ? 'text-blue-700 bg-blue-50' : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
-                        }`}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                      >
-                        <span className="relative inline-block">
-                          {item}
-                          <motion.span
-                            className="block h-0.5 bg-blue-600"
-                            initial={false}
-                            animate={{ width: isActive ? '100%' : 0 }}
-                            transition={{ duration: 0.25 }}
-                          />
-                        </span>
-                      </Link>
+                      {hasDropdown(item) ? (
+                        <div>
+                          <button
+                            onClick={() => handleMobileDropdownToggle(item)}
+                            className={`relative w-full flex items-center justify-between px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                              isActive ? 'text-blue-700 bg-blue-50' : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
+                            }`}
+                          >
+                            <span className="relative inline-block">
+                              {item}
+                              <motion.span
+                                className="block h-0.5 bg-blue-600"
+                                initial={false}
+                                animate={{ width: isActive ? '100%' : 0 }}
+                                transition={{ duration: 0.25 }}
+                              />
+                            </span>
+                            <FaChevronDown className={`w-4 h-4 transition-transform duration-200 ${isMobileDropdownOpen ? 'rotate-180' : ''}`} />
+                          </button>
+                          
+                          <AnimatePresence>
+                            {isMobileDropdownOpen && (
+                              <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                exit={{ opacity: 0, height: 0 }}
+                                transition={{ duration: 0.2 }}
+                                className="pl-4 pr-2 py-2 space-y-1"
+                              >
+                                {dropdownItems[item].map((dropdownItem, idx) => (
+                                  <a
+                                    key={idx}
+                                    href={dropdownItem.href}
+                                    target={dropdownItem.href.startsWith('http') ? '_blank' : undefined}
+                                    rel={dropdownItem.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    className="flex items-center gap-3 px-3 py-2 rounded-md text-sm text-gray-600 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                                  >
+                                    <span className="text-blue-600">{dropdownItem.icon}</span>
+                                    <span>{dropdownItem.name}</span>
+                                  </a>
+                                ))}
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      ) : (
+                        <Link
+                          href={path}
+                          className={`relative block px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                            isActive ? 'text-blue-700 bg-blue-50' : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
+                          }`}
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          <span className="relative inline-block">
+                            {item}
+                            <motion.span
+                              className="block h-0.5 bg-blue-600"
+                              initial={false}
+                              animate={{ width: isActive ? '100%' : 0 }}
+                              transition={{ duration: 0.25 }}
+                            />
+                          </span>
+                        </Link>
+                      )}
                     </motion.div>
                   );
                 })}
