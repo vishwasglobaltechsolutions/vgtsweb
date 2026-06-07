@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 export function middleware() {
   const isDev = process.env.NODE_ENV === 'development';
-  
+
   // Skip CSP in development
   if (isDev) {
     const response = NextResponse.next();
