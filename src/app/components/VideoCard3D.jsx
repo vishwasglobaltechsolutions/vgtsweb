@@ -10,6 +10,8 @@ export default function VideoCard3D({ videoUrl }) {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
   // Motion values for tracking cursor relative to center of the card (-0.5 to 0.5)
   const x = useMotionValue(0);
@@ -71,10 +73,20 @@ export default function VideoCard3D({ videoUrl }) {
     const handleVolumeChange = () => {
       setIsMuted(video.muted || video.volume === 0);
     };
+    const handleLoadStart = () => setIsLoading(true);
+    const handleCanPlay = () => setIsLoading(false);
+    const handleError = () => {
+      console.error('Video loading error');
+      setIsLoading(false);
+      setHasError(true);
+    };
 
     video.addEventListener('play', handlePlay);
     video.addEventListener('pause', handlePause);
     video.addEventListener('volumechange', handleVolumeChange);
+    video.addEventListener('loadstart', handleLoadStart);
+    video.addEventListener('canplay', handleCanPlay);
+    video.addEventListener('error', handleError);
 
     // Attempt autoplay
     const playPromise = video.play();
@@ -89,6 +101,9 @@ export default function VideoCard3D({ videoUrl }) {
       video.removeEventListener('play', handlePlay);
       video.removeEventListener('pause', handlePause);
       video.removeEventListener('volumechange', handleVolumeChange);
+      video.removeEventListener('loadstart', handleLoadStart);
+      video.removeEventListener('canplay', handleCanPlay);
+      video.removeEventListener('error', handleError);
     };
   }, []);
 
@@ -135,7 +150,24 @@ export default function VideoCard3D({ videoUrl }) {
           muted
           playsInline
           className="w-full h-full object-cover z-0"
+          onError={() => setHasError(true)}
+          onLoadedData={() => setIsLoading(false)}
         />
+
+        {/* Loading Indicator */}
+        {isLoading && !hasError && (
+          <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/50">
+            <div className="w-12 h-12 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        )}
+
+        {/* Error Fallback */}
+        {hasError && (
+          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/70 text-white">
+            <p className="text-lg font-semibold mb-2">Video Unavailable</p>
+            <p className="text-sm text-gray-300 text-center px-4">Unable to load video. Please check your connection.</p>
+          </div>
+        )}
 
         {/* Glossy overlay layer */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 pointer-events-none z-10" />
