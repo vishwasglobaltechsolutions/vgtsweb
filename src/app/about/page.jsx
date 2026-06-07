@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Footer from '../footer/page';
 
 const teamMembers = [
-   {
+  {
     name: 'Manvar Umesh D.',
     role: 'CFO',
     bio: 'Financial expert with over 12 years of experience in finance and HR.',
@@ -14,7 +14,7 @@ const teamMembers = [
     role: 'Founder & CEO',
     bio: 'Technology enthusiast with over 10 years of experience in software development and IT consulting.',
     image: 'https://res.cloudinary.com/diaba1bf2/image/upload/v1760162990/vjpics_q4vln9.png',
-  }, 
+  },
   {
     name: 'Khandare Sankesh M.',
     role: 'Business Automation & QA Head',
@@ -27,7 +27,7 @@ const teamMembers = [
 const stats = [
   { label: 'Projects Completed', value: '25+' },
   { label: 'Happy Clients', value: '100%' },
-  { label: 'Team Members', value: '10+' },  
+  { label: 'Team Members', value: '10+' },
 ];
 
 export default function AboutPage() {
@@ -54,7 +54,7 @@ export default function AboutPage() {
               <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">About Us</h2>
               <div className="mt-6 text-lg text-gray-600 space-y-6">
                 <p>
-                  Founded in 2022, Vishwa's Global Tech Solutions (VGTS) was born out of a vision to bridge the gap between cutting-edge technology and business growth. What started as a small team of passionate technologists has grown into a trusted partner for businesses worldwide.
+                  Founded in 2022, Vishwa's Global Tech Solution (VGTS) was born out of a vision to bridge the gap between cutting-edge technology and business growth. What started as a small team of passionate technologists has grown into a trusted partner for businesses worldwide.
                 </p>
                 <p>
                   Our journey began with a simple mission: to help businesses leverage technology to solve complex challenges and achieve sustainable growth. Over the years, we've had the privilege of working with startups, SMEs, and large enterprises across various industries.
@@ -200,7 +200,7 @@ export default function AboutPage() {
       </div>
 
       {/* Stats Section */}
-      <div className="bg-blue-700">
+      <div className="bg-gradient-to-r from-blue-950 to-blue-900">
         <div className="max-w-7xl mx-auto py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 gap-8 md:grid-cols-3">
             {stats.map((stat, index) => (
@@ -216,7 +216,7 @@ export default function AboutPage() {
       {/* CTA Section */}
       <div className="bg-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-blue-700 rounded-lg shadow-xl overflow-hidden lg:grid lg:grid-cols-2 lg:gap-4">
+          <div className="bg-blue-900 rounded-lg shadow-xl overflow-hidden lg:grid lg:grid-cols-2 lg:gap-4">
             <div className="pt-10 pb-12 px-6 sm:pt-16 sm:px-16 lg:py-16 lg:pr-0 xl:py-20 xl:px-20">
               <div className="lg:self-center">
                 <h2 className="text-3xl font-extrabold text-white sm:text-4xl">

@@ -8,7 +8,7 @@ import { FaLaptopCode, FaMobileAlt, FaCloud, FaPalette, FaUsers, FaBullhorn, FaT
 import { FaUsersGear } from 'react-icons/fa6';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import HeroSlider from './components/HeroSlider';
+import VideoCard3D from './components/VideoCard3D';
 
 const services = [
   {
@@ -44,7 +44,7 @@ const services = [
 const stats = [
   { value: "25+", label: "Projects Completed", icon: <FaCheckCircle /> },
   { value: "100%", label: "Happy Clients", icon: <FaUsers /> },
-  { value: "25+", label: "Years of Experienced Team", icon: <FaAward /> },
+  { value: "30+", label: "Years of Experienced Team", icon: <FaAward /> },
   { value: "24/7", label: "Support Available", icon: <FaHeadset /> }
 ];
 
@@ -66,8 +66,22 @@ const features = [
   }
 ];
 
+const headlines = [
+  "Innovative IT Solutions for Your Business",
+  "Custom Software Development",
+  "Digital Transformation Experts"
+];
+
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [headlineIndex, setHeadlineIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setHeadlineIndex((prevIndex) => (prevIndex + 1) % headlines.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState({ success: null, message: '' });
 
@@ -149,45 +163,114 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section with Slider */}
-      <section id="home" className="relative bg-gray-900 text-white overflow-hidden" style={{ height: '90vh' }}>
-        <HeroSlider
-          slides={[
-            {
-              title: 'Innovative IT Solutions for Your Business',
-              description: 'Transforming ideas into powerful digital experiences with cutting-edge technology.',
-              image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-              gradientFrom: 'rgba(30, 58, 138, 0.9)',
-              gradientTo: 'rgba(37, 99, 235, 0.7)',
-              buttons: [
-                { text: 'Get Started', href: 'https://wa.me/919156589900?text= I am interested in your services. Can you please provide me more details?', isPrimary: true },
-                { text: 'Our Services', href: '#services', isPrimary: false }
-              ]
-            },
-            {
-              title: 'Custom Software Development',
-              description: 'Tailored solutions that drive business growth and digital transformation.',
-              image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-              gradientFrom: 'rgba(76, 29, 149, 0.9)',
-              gradientTo: 'rgba(79, 70, 229, 0.7)',
-              buttons: [
-                { text: 'Start Project', href: 'https://wa.me/919156589900?text= I want to make my Software (Website or Mobile App). Can you please provide me more details?', isPrimary: true },
-                { text: 'View Services', href: '#services', isPrimary: false }
-              ]
-            },
-            {
-              title: 'Digital Transformation Experts',
-              description: 'Helping businesses thrive in the digital age with innovative solutions.',
-              image: 'https://rushford.ch/wp-content/uploads/2023/11/a-HELXLsGGM-transformed-770x400.jpeg',
-              gradientFrom: 'rgba(14, 78, 103, 0.9)',
-              gradientTo: 'rgba(13, 148, 136, 0.7)',
-              buttons: [
-                { text: 'Contact Us', href: 'https://wa.me/919156589900?text= I am interested in your services. Can you please provide me more details?', isPrimary: true },
-                { text: 'Know More', href: '#about', isPrimary: false }
-              ]
-            }
-          ]}
-        />
+      {/* Hero Section with 3D Video Card */}
+      <section
+        id="home"
+        className="relative bg-slate-950 text-white overflow-hidden py-16 md:py-24 lg:py-0 lg:h-[90vh] flex items-center"
+      >
+        {/* Tech Grid / Dot Background Pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-60 z-0" />
+
+        {/* Soft decorative background glows */}
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] aspect-square rounded-full bg-blue-900/20 blur-[120px] pointer-events-none z-0" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] aspect-square rounded-full bg-indigo-900/20 blur-[120px] pointer-events-none z-0" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+
+            {/* Left Content Column */}
+            <div className="lg:col-span-7 flex flex-col justify-center text-left space-y-6 md:space-y-8">
+
+              {/* Badge */}
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="inline-flex items-center gap-2 self-start px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-white text-xs sm:text-sm font-semibold tracking-wide"
+              >
+                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                Vishwa's Global Tech Solution
+              </motion.div>
+
+              {/* Rotating Title */}
+              <div className="relative min-h-[110px] sm:min-h-[130px] md:min-h-[160px] lg:min-h-[190px] w-full flex items-center">
+                <AnimatePresence mode="wait">
+                  <motion.h1
+                    key={headlineIndex}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.4 }}
+                    className="absolute left-0 right-0 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400 py-3"
+                  >
+                    {headlines[headlineIndex]}
+                  </motion.h1>
+                </AnimatePresence>
+              </div>
+
+              {/* Subheading */}
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="text-base sm:text-lg md:text-xl text-slate-300 max-w-2xl leading-relaxed"
+              >
+                Transforming ideas into powerful, scaleable digital experiences with AI-powered technologies, custom software, and responsive design systems.
+              </motion.p>
+
+              {/* Action Buttons */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="flex flex-wrap sm:flex-nowrap gap-4 w-full"
+              >
+                <Link
+                  href="https://wa.me/919156589900?text=I am interested in your services. Can you please provide me more details?"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 rounded-lg text-sm sm:text-base font-semibold text-white bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 shadow-lg shadow-blue-500/20 hover:shadow-cyan-500/30 transition-all duration-300 hover:scale-[1.03]"
+                >
+                  <FaWhatsapp className="w-5 h-5 mr-2" />
+                  Get Started
+                </Link>
+                <a
+                  href="#services"
+                  className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-lg text-sm sm:text-base font-semibold text-slate-200 border-2 border-slate-700 hover:border-slate-500 hover:bg-slate-800/40 transition-all duration-300 hover:scale-[1.03]"
+                >
+                  Our Services
+                </a>
+              </motion.div>
+
+              {/* Mini tech stack badges to highlight skills */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 0.6 }}
+                className="flex flex-wrap items-center gap-3 pt-2 border-t border-slate-800/80"
+              >
+                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Expertise:</span>
+                <span className="text-xs px-2.5 py-1 rounded bg-slate-800/60 border border-slate-700 text-slate-300 font-medium">Web Development</span>
+                <span className="text-xs px-2.5 py-1 rounded bg-slate-800/60 border border-slate-700 text-slate-300 font-medium">Mobile App Development</span>
+                <span className="text-xs px-2.5 py-1 rounded bg-slate-800/60 border border-slate-700 text-slate-300 font-medium">SEO & Analytics</span>
+                <span className="text-xs px-2.5 py-1 rounded bg-slate-800/60 border border-slate-700 text-slate-300 font-medium">Firebase & Azure</span>
+
+              </motion.div>
+
+            </div>
+
+            {/* Right Video Column */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="lg:col-span-5 w-full flex items-center justify-center"
+            >
+              <VideoCard3D videoUrl="https://res.cloudinary.com/diaba1bf2/video/upload/v1780813167/vgtsIntro_pgupad.mp4" />
+            </motion.div>
+
+          </div>
+        </div>
       </section>
 
       {/* Stats Section */}
@@ -346,7 +429,7 @@ export default function Home() {
             >
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">About VGTS</h2>
               <p className="text-base md:text-lg text-gray-600 mb-6 leading-relaxed">
-                At Vishwa's Global Tech Solutions, we are passionate about delivering innovative technology solutions that drive business growth and digital transformation.
+                At Vishwa's Global Tech Solution, we are passionate about delivering innovative technology solutions that drive business growth and digital transformation.
               </p>
               <p className="text-base md:text-lg text-gray-600 mb-8 leading-relaxed">
                 With a team of experienced professionals, we help businesses of all sizes navigate the complex world of technology and achieve their digital goals.
@@ -400,7 +483,7 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="bg-gradient-to-br from-blue-600 to-blue-800 text-white p-6 md:p-8 rounded-2xl"
+              className="bg-gradient-to-br from-slate-950 to-blue-800 text-white p-6 md:p-8 rounded-2xl"
             >
               <h3 className="text-xl md:text-2xl font-bold mb-6">Contact Information</h3>
               <div className="space-y-6">
@@ -502,7 +585,7 @@ export default function Home() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`w-full flex justify-center items-center px-6 py-4 border border-transparent rounded-lg text-base font-medium text-white transition-all duration-300 ${isSubmitting ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700 hover:shadow-lg'
+                  className={`w-full flex justify-center items-center px-6 py-4 border border-transparent rounded-lg text-base font-medium text-white transition-all duration-300 ${isSubmitting ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-900 hover:bg-blue-800 hover:shadow-lg'
                     }`}
                 >
                   {isSubmitting ? (
@@ -533,7 +616,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-12 md:py-20 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+      <section className="py-12 md:py-20 bg-gradient-to-r from-slate-950 to-blue-900 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -652,7 +735,7 @@ export default function Home() {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 md:mt-12 pt-6 md:pt-8 text-center text-gray-400">
-            <p className="text-sm md:text-base">&copy; {new Date().getFullYear()} Vishwa's Global Tech-Solution. All rights reserved.</p>
+            <p className="text-sm md:text-base">&copy; {new Date().getFullYear()} Vishwa's Global Tech Solution. All rights reserved.</p>
           </div>
         </div>
       </footer>

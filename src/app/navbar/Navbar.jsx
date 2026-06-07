@@ -6,7 +6,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { FaWhatsapp, FaFacebook,FaLinkedin, FaInstagram } from 'react-icons/fa';
+import { FaWhatsapp, FaFacebook, FaLinkedin, FaInstagram } from 'react-icons/fa';
 import { FaLaptopCode, FaMobileAlt, FaCloud, FaPalette, FaUsers, FaBullhorn, FaTimes, FaBars, FaChevronLeft, FaChevronRight, FaChevronDown, FaGraduationCap } from 'react-icons/fa';
 
 const Navbar = () => {
@@ -80,7 +80,7 @@ const Navbar = () => {
     <div>
       <nav className="bg-white shadow-sm sticky top-0 z-50">
         {/* Top Bar with Contact Info - Hidden on mobile */}
-        <div className="hidden md:block bg-gradient-to-r from-blue-900 to-blue-500 text-white text-sm">
+        <div className="hidden md:block bg-gradient-to-r from-blue-900 to-blue-800 text-white text-sm">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row justify-center items-center py-2 space-y-2 md:space-y-0">
               <div className="marquee-container w-full">
@@ -128,9 +128,9 @@ const Navbar = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                 <FaFacebook className="h-5 w-5" />
+                  <FaFacebook className="h-5 w-5" />
                 </a>
-                
+
 
                 {/* LinkedIn */}
                 <a
@@ -140,16 +140,16 @@ const Navbar = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                 <FaLinkedin className="h-5 w-5" />
+                  <FaLinkedin className="h-5 w-5" />
                 </a>
-                 <a
+                <a
                   href="https://www.instagram.com/vishwasglobaltechsolution?igsh=OWtsbGVlb3QwbG9l"
                   className="text-white hover:text-blue-200 transition-colors duration-200"
                   aria-label="Instagram"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                 <FaInstagram className="h-5 w-5" />
+                  <FaInstagram className="h-5 w-5" />
                 </a>
               </div>
             </div>
@@ -184,7 +184,7 @@ const Navbar = () => {
                 const path = item.toLowerCase() === 'home' ? '/' : `/${item.toLowerCase()}`;
                 const isActive = pathname === path;
                 const isDropdownOpen = openDropdown === item;
-                
+
                 if (hasDropdown(item)) {
                   return (
                     <div
@@ -194,22 +194,20 @@ const Navbar = () => {
                       onMouseLeave={() => handleDropdownHover(item, false)}
                     >
                       <button
-                        className={`flex items-center gap-1 relative transition-colors duration-200 group ${
-                          isActive ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
-                        }`}
+                        className={`flex items-center gap-1 relative transition-colors duration-200 group ${isActive ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+                          }`}
                       >
                         {item}
                         <FaChevronDown className={`w-3 h-3 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
                         <motion.span
-                          className={`absolute -bottom-1 left-0 h-0.5 bg-blue-600 transition-all ${
-                            isActive ? 'w-full' : 'w-0 group-hover:w-full'
-                          }`}
+                          className={`absolute -bottom-1 left-0 h-0.5 bg-blue-600 transition-all ${isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                            }`}
                           initial={false}
                           whileHover={{ width: '100%' }}
                           transition={{ duration: 0.3 }}
                         />
                       </button>
-                      
+
                       <AnimatePresence>
                         {isDropdownOpen && (
                           <motion.div
@@ -237,21 +235,19 @@ const Navbar = () => {
                     </div>
                   );
                 }
-                
+
                 return (
                   <Link
                     key={item}
                     href={path}
                     prefetch={true}
-                    className={`relative transition-colors duration-200 group ${
-                      isActive ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
-                    }`}
+                    className={`relative transition-colors duration-200 group ${isActive ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+                      }`}
                   >
                     {item}
                     <motion.span
-                      className={`absolute -bottom-1 left-0 h-0.5 bg-blue-600 transition-all ${
-                        isActive ? 'w-full' : 'w-0 group-hover:w-full'
-                      }`}
+                      className={`absolute -bottom-1 left-0 h-0.5 bg-blue-600 transition-all ${isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                        }`}
                       initial={false}
                       whileHover={{ width: '100%' }}
                       transition={{ duration: 0.3 }}
@@ -262,7 +258,7 @@ const Navbar = () => {
               <Link
                 href="/contact"
                 prefetch={true}
-                className="bg-gradient-to-r from-blue-700 to-blue-500 text-white px-2 py-2 rounded-lg hover:bg-blue-600 transition-all duration-300 transform hover:-translate-y-0.5 active:scale-105 focus:scale-105 shadow-md hover:shadow-lg flex items-center"
+                className="bg-gradient-to-r from-blue-800 to-blue-500 text-white px-2 py-2 rounded-lg hover:bg-blue-600 transition-all duration-300 transform hover:-translate-y-0.5 active:scale-105 focus:scale-105 shadow-md hover:shadow-lg flex items-center"
               >
                 Contact Us
               </Link>
@@ -301,7 +297,7 @@ const Navbar = () => {
                   const path = item.toLowerCase() === 'home' ? '/' : `/${item.toLowerCase()}`;
                   const isActive = pathname === path;
                   const isMobileDropdownOpen = mobileDropdown === item;
-                  
+
                   return (
                     <motion.div
                       key={item}
@@ -313,9 +309,8 @@ const Navbar = () => {
                         <div>
                           <button
                             onClick={() => handleMobileDropdownToggle(item)}
-                            className={`relative w-full flex items-center justify-between px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                              isActive ? 'text-blue-700 bg-blue-50' : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
-                            }`}
+                            className={`relative w-full flex items-center justify-between px-3 py-2 rounded-md text-base font-medium transition-colors ${isActive ? 'text-blue-700 bg-blue-50' : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
+                              }`}
                           >
                             <span className="relative inline-block">
                               {item}
@@ -328,7 +323,7 @@ const Navbar = () => {
                             </span>
                             <FaChevronDown className={`w-4 h-4 transition-transform duration-200 ${isMobileDropdownOpen ? 'rotate-180' : ''}`} />
                           </button>
-                          
+
                           <AnimatePresence>
                             {isMobileDropdownOpen && (
                               <motion.div
@@ -358,9 +353,8 @@ const Navbar = () => {
                       ) : (
                         <Link
                           href={path}
-                          className={`relative block px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                            isActive ? 'text-blue-700 bg-blue-50' : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
-                          }`}
+                          className={`relative block px-3 py-2 rounded-md text-base font-medium transition-colors ${isActive ? 'text-blue-700 bg-blue-50' : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
+                            }`}
                           onClick={() => setIsMobileMenuOpen(false)}
                         >
                           <span className="relative inline-block">
