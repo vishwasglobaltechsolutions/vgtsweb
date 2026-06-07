@@ -17,6 +17,7 @@ export function middleware() {
     "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://maps.googleapis.com https://maps.gstatic.com",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "img-src 'self' data: blob: https: *.googleapis.com *.google.com *.gstatic.com",
+    "media-src 'self' blob: data: https://res.cloudinary.com",
     "font-src 'self' data: https://fonts.gstatic.com",
     "frame-src 'self' https://www.google.com https://*.google.com",
     "form-action 'self' https://api.emailjs.com",
