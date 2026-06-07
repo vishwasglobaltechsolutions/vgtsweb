@@ -166,7 +166,7 @@ export default function Home() {
       {/* Hero Section with 3D Video Card */}
       <section
         id="home"
-        className="relative bg-slate-950 text-white overflow-hidden py-16 md:py-24 lg:py-0 lg:h-[90vh] flex items-center"
+        className="relative bg-slate-950 text-white overflow-hidden pt-2 pb-8 md:py-24 lg:py-0 lg:h-[95vh] flex items-center"
       >
         {/* Tech Grid / Dot Background Pattern */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-60 z-0" />
@@ -175,11 +175,11 @@ export default function Home() {
         <div className="absolute top-[-10%] left-[-10%] w-[50%] aspect-square rounded-full bg-blue-900/20 blur-[120px] pointer-events-none z-0" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[50%] aspect-square rounded-full bg-indigo-900/20 blur-[120px] pointer-events-none z-0" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 pb-4 sm:px-6 lg:px-8 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
 
             {/* Left Content Column */}
-            <div className="lg:col-span-7 flex flex-col justify-center text-left space-y-6 md:space-y-8">
+            <div className="lg:col-span-7 flex flex-col justify-center text-left space-y-6 md:space-y-8 pt-4">
 
               {/* Badge */}
               <motion.div
@@ -247,7 +247,7 @@ export default function Home() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 0.6 }}
-                className="flex flex-wrap items-center gap-3 pt-2 border-t border-slate-800/80"
+                className="hidden sm:flex flex-wrap items-center gap-3 pt-2 border-t border-slate-800/80"
               >
                 <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Expertise:</span>
                 <span className="text-xs px-2.5 py-1 rounded bg-slate-800/60 border border-slate-700 text-slate-300 font-medium">Web Development</span>
