@@ -6,8 +6,9 @@ import Link from "next/link";
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { FaWhatsapp, FaFacebook, FaLinkedin, FaInstagram } from 'react-icons/fa';
-import { FaLaptopCode, FaMobileAlt, FaCloud, FaPalette, FaUsers, FaBullhorn, FaTimes, FaBars, FaChevronLeft, FaChevronRight, FaChevronDown, FaGraduationCap } from 'react-icons/fa';
+import { FaWhatsapp, FaFacebook, FaLinkedin, FaInstagram, FaBriefcase } from 'react-icons/fa';
+import { FaLaptopCode, FaMobileAlt, FaCloud, FaPalette, FaUsers, FaBullhorn, FaTimes, FaBars, FaChevronLeft, FaChevronRight, FaChevronDown, FaGraduationCap, FaArrowRight, FaTruck } from 'react-icons/fa';
+import { FaUserGear } from 'react-icons/fa6';
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -23,9 +24,11 @@ const Navbar = () => {
       { name: 'Digital Marketing', href: '/services#digital-marketing', icon: <FaBullhorn className="w-4 h-4" /> }
     ],
     Products: [
-      { name: 'JobHook', href: 'https://jobhook.in/', icon: <FaLaptopCode className="w-4 h-4" /> },
+      { name: 'JobHook', href: 'https://jobhook.in/', icon: <FaBriefcase className="w-4 h-4" /> },
       { name: 'Educational Institute Management', href: '/products#educational', icon: <FaGraduationCap className="w-4 h-4" /> },
-      { name: 'Online Exam Portal', href: '/products#exam-portal', icon: <FaLaptopCode className="w-4 h-4" /> }
+      { name: 'Online Exam Portal', href: '/products#exam-portal', icon: <FaLaptopCode className="w-4 h-4" /> },
+      { name: 'HRMS & Payroll Management System', href: '/products#hrms', icon: <FaUserGear className="w-4 h-4" /> },
+      { name: 'Material Tracking Software', href: '/products#material-tracking', icon: <FaTruck className="w-4 h-4" /> }
     ],
     Projects: [
       { name: 'Web Development', href: '/projects?category=web', icon: <FaLaptopCode className="w-4 h-4" /> },
@@ -158,7 +161,7 @@ const Navbar = () => {
 
         {/* Main Navigation */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16 md:h-20">
+          <div className="flex justify-between items-center h-12 md:h-16">
             <div className="flex items-center">
               <Link href="/" className="text-gray-700 hover:text-blue-600 transition-colors duration-200">
                 <motion.div
@@ -255,13 +258,37 @@ const Navbar = () => {
                   </Link>
                 );
               })}
-              <Link
-                href="/contact"
-                prefetch={true}
-                className="bg-gradient-to-r from-blue-800 to-blue-500 text-white px-2 py-2 rounded-lg hover:bg-blue-600 transition-all duration-300 transform hover:-translate-y-0.5 active:scale-105 focus:scale-105 shadow-md hover:shadow-lg flex items-center"
+              <motion.div
+                whileHover={{ scale: 1.04, y: -1 }}
+                whileTap={{ scale: 0.96, y: 0 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+                className="inline-flex"
               >
-                Contact Us
-              </Link>
+                <Link
+                  href="/contact"
+                  prefetch={true}
+                  className={`group relative inline-flex items-center gap-2.5 px-4.5 py-2 rounded-full text-sm font-semibold text-white overflow-hidden shadow-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 ${pathname === '/contact'
+                    ? 'bg-gradient-to-r from-blue-700 via-blue-900 to-blue-800 ring-2 ring-blue-500 ring-offset-2 shadow-blue-500/30'
+                    : 'bg-gradient-to-r from-blue-600 via-blue-900 to-blue-800 hover:from-blue-500 hover:via-blue-800 hover:to-blue-600 shadow-blue-500/25 hover:shadow-lg hover:shadow-blue-500/40 border border-white/20'
+                    }`}
+                >
+                  {/* Glossy light streak / shimmer sweep on hover */}
+                  <span
+                    className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out bg-gradient-to-r from-transparent via-white/25 to-transparent pointer-events-none"
+                    aria-hidden="true"
+                  />
+
+                  <span className="relative z-10 tracking-wide">Contact Us</span>
+
+                  {/* Interactive icon badge with rotation on hover */}
+                  <span
+                    className="relative z-10 inline-flex items-center justify-center w-5 h-5 rounded-full bg-white/20 text-white transition-all duration-300 group-hover:bg-white group-hover:text-blue-600 group-hover:translate-x-0.5"
+                    aria-hidden="true"
+                  >
+                    <FaArrowRight className="w-2.5 h-2.5 transition-transform duration-300 group-hover:-rotate-45" />
+                  </span>
+                </Link>
+              </motion.div>
             </div>
 
             {/* Mobile menu button */}

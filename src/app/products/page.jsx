@@ -19,6 +19,24 @@ const page = () => {
       subtitle: 'Secure assessments with analytics',
       description:
         'Create and schedule tests with question banks, randomization, timer, negative marking, proctoring options, instant results and detailed analytics.'
+    },
+    {
+      title: 'HRMS & Payroll Management System',
+      subtitle: 'HRMS & Payroll Management System for Small and Mid Size Companies',
+      description:
+        'End-to-end HR operations: employee onboarding, leave management, attendance tracking, payroll processing, tax calculations, employee self-service and reporting.'
+    },
+    {
+      title: 'Material Tracking App',
+      subtitle: 'Material Tracking Software for Logistics & Warehouses',
+      description:
+        'Real-time tracking of materials: GPS location, movement history, status updates, delivery alerts, and analytics dashboard for logistics and warehouse operations.'
+    },
+    {
+      title: 'WhatsApp Marketing Platform',
+      subtitle: 'WhatsApp Marketing Platform for Small and Mid Size Companies',
+      description:
+        'WhatsApp Marketing Platform for Small and Mid Size Companies. Send bulk messages to your customers and track delivery status, open rates, and click-through rates. Perfect for marketing, sales, and customer support teams.'
     }
   ];
   return (
@@ -30,11 +48,11 @@ const page = () => {
           <div
             key={idx}
             className="group relative rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-          > 
+          >
             <h2 className="text-lg font-semibold text-gray-900">{p.title}</h2>
             <div className="h-1 w-full rounded-xl bg-gradient-to-r from-blue-700 via-blue-400 to-blue-700 opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-300 mb-4" />
 
-            
+
             {p.subtitle ? (
               <p className="mt-1 text-sm text-gray-500">{p.subtitle}</p>
             ) : null}
@@ -42,7 +60,7 @@ const page = () => {
               <p className="mt-3 text-sm leading-6 text-gray-600">{p.description}</p>
             ) : null}
             <div className="mt-4">
-              <a 
+              <a
                 href={idx === 0 ? 'https://jobhook.in/' : 'https://wa.me/919156589900?text=I am interested in your product. Can you please provide me more details?'}
                 target="_blank"
                 rel="noopener noreferrer"

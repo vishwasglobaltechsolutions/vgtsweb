@@ -6,7 +6,7 @@ import { useRef } from 'react';
 import emailjs from '@emailjs/browser';
 import { FaLaptopCode, FaMobileAlt, FaCloud, FaPalette, FaUsers, FaBullhorn, FaTimes, FaBars, FaChevronLeft, FaChevronRight, FaWhatsapp, FaInstagram, FaFacebook, FaLinkedin, FaCheckCircle, FaArrowRight, FaRocket, FaShieldAlt, FaHeadset, FaClock, FaAward, FaStar, FaEnvelope, FaPhone } from 'react-icons/fa';
 import { FaUsersGear } from 'react-icons/fa6';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import VideoCard3D from './components/VideoCard3D';
 
@@ -39,6 +39,7 @@ const services = [
     color: "from-orange-500 to-orange-700",
     features: ["SEO Optimization", "Social Media", "Content Strategy"]
   },
+
 ];
 
 const stats = [
@@ -71,6 +72,49 @@ const headlines = [
   "Custom Software Development",
   "Digital Transformation Experts"
 ];
+
+// Animated count-up component for mobile & desktop stats
+const StatCounter = ({ value, duration = 1.2 }) => {
+  const [displayValue, setDisplayValue] = useState(value);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-10px" });
+  const hasAnimated = useRef(false);
+
+  useEffect(() => {
+    // 24/7 stays constant, and run animation only once
+    if (!isInView || hasAnimated.current || value === '24/7') return;
+
+    const match = value.match(/^(\d+)(.*)$/);
+    if (!match) return;
+
+    hasAnimated.current = true;
+    const target = parseInt(match[1], 10);
+    const suffix = match[2] || '';
+    let startTimestamp = null;
+    const durationMs = duration * 1000;
+    let animId;
+
+    const step = (timestamp) => {
+      if (!startTimestamp) startTimestamp = timestamp;
+      const progress = Math.min((timestamp - startTimestamp) / durationMs, 1);
+      // Smooth cubic deceleration curve
+      const easeProgress = 1 - Math.pow(1 - progress, 3);
+      const current = Math.floor(easeProgress * target);
+      setDisplayValue(`${current}${suffix}`);
+
+      if (progress < 1) {
+        animId = requestAnimationFrame(step);
+      } else {
+        setDisplayValue(`${target}${suffix}`);
+      }
+    };
+
+    animId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(animId);
+  }, [isInView, value, duration]);
+
+  return <span ref={ref}>{displayValue}</span>;
+};
 
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -111,6 +155,13 @@ export default function Home() {
       const formData = new FormData(form.current);
       const templateParams = Object.fromEntries(formData.entries());
 
+      // Add recipient email if not provided by template
+      if (!templateParams.to_email) {
+        templateParams.to_email = 'vishwasglobaltechsolutions@gmail.com';
+      }
+
+      console.log('Sending email with params:', templateParams);
+
       const result = await new Promise((resolve, reject) => {
         emailjs.send(
           process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
@@ -130,9 +181,14 @@ export default function Home() {
       form.current.reset();
     } catch (error) {
       console.error('Failed to send email:', error);
+      console.error('Error details:', {
+        text: error.text,
+        status: error.status,
+        message: error.message
+      });
       setSubmitStatus({
         success: false,
-        message: `Failed to send message: ${error.message || 'Please try again later.'}`
+        message: `Failed to send message: ${error.text || error.message || 'Please try again later.'}`
       });
     } finally {
       setIsSubmitting(false);
@@ -229,16 +285,17 @@ export default function Home() {
                   href="https://wa.me/919156589900?text=I am interested in your services. Can you please provide me more details?"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3.5 rounded-lg text-sm sm:text-base font-semibold text-white bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 shadow-lg shadow-blue-500/20 hover:shadow-cyan-500/30 transition-all duration-300 hover:scale-[1.03]"
+                  className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xl text-sm sm:text-base font-bold text-slate-900 bg-white hover:bg-blue-50/90 border border-white shadow-[0_0_24px_rgba(59,130,246,0.3)] hover:shadow-[0_0_32px_rgba(59,130,246,0.5)] transition-all duration-300 hover:scale-[1.03] active:scale-[0.98]"
                 >
-                  <FaWhatsapp className="w-5 h-5 mr-2" />
-                  Get Started
+                  <FaWhatsapp className="w-5 h-5 text-emerald-600 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300" />
+                  <span className="tracking-wide transition-colors">Get Started</span>
                 </Link>
                 <a
                   href="#services"
-                  className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 rounded-lg text-sm sm:text-base font-semibold text-slate-200 border-2 border-slate-700 hover:border-slate-500 hover:bg-slate-800/40 transition-all duration-300 hover:scale-[1.03]"
+                  className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-sm sm:text-base font-semibold text-white bg-white/10 hover:bg-white/15 border border-white/20 hover:border-white/40 backdrop-blur-md shadow-lg shadow-black/20 hover:shadow-blue-500/10 transition-all duration-300 hover:scale-[1.03] active:scale-[0.98]"
                 >
-                  Our Services
+                  <span>Our Services</span>
+                  <FaArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
                 </a>
               </motion.div>
 
@@ -274,23 +331,75 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-12 md:py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+      <section className="relative py-12 sm:py-16 md:py-20 bg-gradient-to-b from-slate-50/80 via-white to-slate-50/50 border-b border-slate-100 overflow-hidden">
+        {/* Subtle background dot pattern */}
+        <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px] opacity-60 pointer-events-none" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-6 lg:gap-8">
             {stats.map((stat, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="text-center"
+                initial={{ opacity: 0, y: 30, scale: 0.94 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-30px" }}
+                transition={{
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 24,
+                  delay: index * 0.1
+                }}
+                whileHover={{ y: -6, scale: 1.02 }}
+                whileTap={{ scale: 0.96 }}
+                className="group relative bg-white p-4 sm:p-7 rounded-2xl border border-slate-200/80 hover:border-blue-500/40 active:border-blue-500/60 shadow-xs hover:shadow-xl hover:shadow-blue-500/10 active:shadow-md transition-all duration-300 overflow-hidden flex flex-col items-center text-center cursor-pointer select-none"
               >
-                <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-blue-100 text-blue-600 rounded-full mb-3 md:mb-4">
-                  {React.cloneElement(stat.icon, { className: 'w-6 h-6 md:w-8 md:h-8' })}
-                </div>
-                <h3 className="text-2xl md:text-4xl font-bold text-gray-900 mb-2">{stat.value}</h3>
-                <p className="text-sm md:text-base text-gray-600">{stat.label}</p>
+                {/* Top accent beam that animates across on mobile scroll & desktop entry */}
+                <motion.div
+                  initial={{ scaleX: 0 }}
+                  whileInView={{ scaleX: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 0.15 + index * 0.1, ease: "easeOut" }}
+                  className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500 origin-left"
+                />
+
+                {/* Soft ambient inner glow on hover & active mobile tap */}
+                <div className="absolute inset-0 bg-gradient-to-b from-blue-50/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+                {/* Icon capsule with gentle ambient mobile float + hover rotation & glow */}
+                <motion.div
+                  animate={{ y: [0, -3, 0] }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: index * 0.35
+                  }}
+                  className="relative mb-3 sm:mb-4 inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-blue-50 text-blue-600 border border-blue-100/80 transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-blue-600 group-hover:to-indigo-600 group-hover:text-white group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg group-hover:shadow-blue-500/30 group-active:scale-105"
+                >
+                  {React.cloneElement(stat.icon, {
+                    className: 'w-5 h-5 sm:w-7 sm:h-7 transition-transform duration-300 group-hover:scale-105'
+                  })}
+                </motion.div>
+
+                {/* Stat value with animated number count-up + gradient shift */}
+                <h3 className="relative text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-indigo-600 group-active:text-blue-600 transition-all duration-300 mb-1 tracking-tight">
+                  <StatCounter value={stat.value} duration={1.2 + index * 0.2} />
+                </h3>
+
+                {/* Stat label with responsive sizing */}
+                <p className="relative text-[11px] sm:text-sm font-semibold text-slate-500 group-hover:text-slate-800 transition-colors duration-300 leading-snug max-w-[140px] sm:max-w-none">
+                  {stat.label}
+                </p>
+
+                {/* Bottom micro-indicator: Live pulse badge for 24/7 or interactive indicator */}
+                {stat.value === '24/7' ? (
+                  <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200/80 mt-2.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
+                    <span>Live</span>
+                  </div>
+                ) : (
+                  <div className="w-1.5 h-1.5 rounded-full bg-slate-200 group-hover:bg-blue-600 group-hover:scale-125 transition-all duration-300 mt-3" />
+                )}
               </motion.div>
             ))}
           </div>
